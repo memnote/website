@@ -36,7 +36,6 @@ export async function getServerSideProps(context) {
   const id = context.params.id;
   const markdown = await getNoteMarkdown(id);
   const metaData = JSON.stringify(matter(markdown).data);
-  console.log(metaData);
 
   return {
     props: {
