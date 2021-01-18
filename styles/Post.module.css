@@ -1,51 +1,22 @@
-.mdContainer {
-  min-height: calc(100vh - 100px);
+.container {
   max-width: 1100px;
   margin: auto;
   padding: 1rem;
 }
 
-.mdContainer > h2:nth-child(3) {
-  display: none;
-}
-
-.meta > h1 {
-  padding: 0;
-  margin: 5px 0;
-  font-size: 25px;
-}
-
-.meta > h3 {
-  margin: 0;
-  padding: 0;
-  font-size: 16px;
-  color: gray;
-}
-
-.meta h6 {
-  margin: 5px 0;
-  color: gray;
-}
-
 .metaContainer {
-  display: flex;
-  flex-direction: row;
+  height: 50px;
 }
 
-.smallPostThumbnail {
-  height: 100px;
-  margin-right: 20px;
+.metaContainer > p {
+  margin-bottom: 0;
+  margin-top: 0;
 }
 
-@media (max-width: 600px) {
-  .smallPostThumbnail {
-    margin-right: 0;
-    margin-bottom: 20px;
-    height: 250px;
-  }
+.mdContainer {
+  min-height: calc(100vh - 190px);
+}
 
-  .metaContainer {
-    flex-direction: column;
-    flex-flow: column-reverse;
-  }
+.mdContainer > h2:nth-child(2) {
+  display: none;
 }
