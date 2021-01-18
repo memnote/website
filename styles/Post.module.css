@@ -1,0 +1,51 @@
+.mdContainer {
+  min-height: calc(100vh - 100px);
+  max-width: 1100px;
+  margin: auto;
+  padding: 1rem;
+}
+
+.mdContainer > h2:nth-child(3) {
+  display: none;
+}
+
+.meta > h1 {
+  padding: 0;
+  margin: 5px 0;
+  font-size: 25px;
+}
+
+.meta > h3 {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  color: gray;
+}
+
+.meta h6 {
+  margin: 5px 0;
+  color: gray;
+}
+
+.metaContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.smallPostThumbnail {
+  height: 100px;
+  margin-right: 20px;
+}
+
+@media (max-width: 600px) {
+  .smallPostThumbnail {
+    margin-right: 0;
+    margin-bottom: 20px;
+    height: 250px;
+  }
+
+  .metaContainer {
+    flex-direction: column;
+    flex-flow: column-reverse;
+  }
+}
