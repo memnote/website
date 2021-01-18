@@ -17,7 +17,7 @@ function SearchFilter({ setFilteredMetaDatas, metaDatas = [] }) {
 
   const handleSearchChange = (e) => {
     const filtered = metaDatas.filter((meta) =>
-      meta.title.includes(e.target.value)
+      meta.title.toLowerCase().includes(e.target.value.toLowerCase())
     );
     setFilteredMetaDatas(filtered);
   };
