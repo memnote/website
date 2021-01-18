@@ -1,34 +1,28 @@
 import Head from "next/head";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
 import Footer from "../components/Footer";
 import NoteCardList from "../components/NoteCardList";
 import styles from "../styles/Home.module.css";
 import { getAllNotesMetadata } from "../lib/requests";
 import SearchFilter from "../components/SearchFilter";
 
-export default function Home() {
-  const [metaDatas, setMetaDatas] = useState([]);
-  const [filteredMetaDatas, setFilteredMetaDatas] = useState([]);
-
-  useEffect(() => {
-    getAllNotesMetadata().then((res) => {
-      setMetaDatas(res);
-      setFilteredMetaDatas(res);
-    });
-  }, []);
+export default function Home({ metaData }) {
+  const [metaDatas, setMetaDatas] = useState(metaData);
+  const [filteredMetaDatas, setFilteredMetaDatas] = useState(metaData);
 
   return (
     <div className={styles.container}>
       <Head>
-        <title>BME BPROF NOTES</title>
+        <title>Memnote</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>BME BPROF</h1>
+        <h1 className={styles.title}>Memnote</h1>
 
         <p className={styles.description}>
-          Hasznos jegyzetek és segédletek gyűjteménye{" "}
+          Hasznos jegyzetek és segédletek{" "}
           <code className={styles.code}>Üzemmérnök informatikusoknak</code>
         </p>
 
@@ -43,4 +37,14 @@ export default function Home() {
       <Footer />
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const metaData = await getAllNotesMetadata();
+
+  return {
+    props: {
+      metaData,
+    },
+  };
 }
