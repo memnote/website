@@ -27,7 +27,7 @@ const Post = ({ markdown, metaData }) => {
       >
         <div className={styles.metaOverlay}>
           <div className={styles.metaText}>
-            <p>Példa szoftech poszt hosszú címmel</p>
+            <p>{meta.title}</p>
             <p>{new Date(meta.date).toLocaleDateString()}</p>
           </div>
         </div>
