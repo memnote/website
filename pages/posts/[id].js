@@ -19,9 +19,18 @@ const Post = ({ markdown, metaData }) => {
         <title>{`Jegyzet - ${meta.title}`}</title>
       </Head>
 
-      <div className={styles.metaContainer}>
-        <p>{meta.title}</p>
-        <p>{new Date(meta.date).toLocaleDateString()}</p>
+      <div
+        style={{
+          backgroundImage: `url(${thumbnailBaseUrl}${meta.subject}.jpg)`,
+        }}
+        className={styles.metaContainer}
+      >
+        <div className={styles.metaOverlay}>
+          <div className={styles.metaText}>
+            <p>Példa szoftech poszt hosszú címmel</p>
+            <p>{new Date(meta.date).toLocaleDateString()}</p>
+          </div>
+        </div>
       </div>
 
       <div className={styles.mdContainer}>

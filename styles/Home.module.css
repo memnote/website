@@ -24,6 +24,7 @@
   justify-content: center;
   align-items: center;
   text-align: center;
+  margin-top: 50px;
 }
 
 .footer img {
@@ -93,7 +94,7 @@
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
   cursor: pointer;
-  min-width: 400px;
+  width: 400px;
 }
 
 .card:hover,
@@ -164,12 +165,20 @@
   }
 
   .smallCardImg {
-    width: 300px;
-    height: 150px;
+    width: 250px;
+    height: 125px;
     margin-bottom: 10px;
   }
 
   .card {
-    min-width: 300px;
+    width: 300px;
+  }
+
+  .card p {
+    font-size: 1rem;
+  }
+
+  .card h3 {
+    font-size: 1.2rem;
   }
 }
