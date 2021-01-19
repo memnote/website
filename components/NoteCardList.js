@@ -10,9 +10,9 @@ function NoteCardList({ metaDatas = [] }) {
           key={i}
           title={d.title}
           description={d.description}
-          thumbnail={d.thumbnail}
           fileName={d.fileName}
           date={d.date}
+          subject={d.subject}
         />
       ))}
     </div>

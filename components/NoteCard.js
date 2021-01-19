@@ -5,14 +5,15 @@ import styles from "../styles/Home.module.css";
 const thumbnailBaseUrl =
   "https://raw.githubusercontent.com/ErikSzabo/bprof-notes-data/master/assets/thumbnails/";
 
-function NoteCard({ title, description, thumbnail, fileName, date }) {
+function NoteCard({ title, description, fileName, date, subject }) {
   return (
     <Link href={`/posts/${fileName}`}>
       <div className={styles.card}>
         <img
           className={styles.smallCardImg}
-          src={`${thumbnailBaseUrl}${thumbnail}`}
+          src={`${thumbnailBaseUrl}${subject}.jpg`}
         />
+
         <h3>{title} &rarr;</h3>
         <p className={styles.smallDate}>{date}</p>
         <p>{description}</p>
