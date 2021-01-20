@@ -1,9 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
-
-const thumbnailBaseUrl =
-  "https://raw.githubusercontent.com/memnote/notes/master/assets/thumbnails/";
+import { thumbnailUrl } from "../lib/baseURLs";
 
 function NoteCard({ title, description, fileName, date, subject }) {
   return (
@@ -11,7 +9,7 @@ function NoteCard({ title, description, fileName, date, subject }) {
       <div className={styles.card}>
         <img
           className={styles.smallCardImg}
-          src={`${thumbnailBaseUrl}${subject}.jpg`}
+          src={`${thumbnailUrl}${subject}.jpg`}
         />
 
         <h3>{title} &rarr;</h3>
