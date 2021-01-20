@@ -1,10 +1,8 @@
 import axios from "axios";
 
-const baseURL =
-  "https://api.github.com/repos/erikszabo/bprof-notes-data/contents/";
+const baseURL = "https://api.github.com/repos/memnote/notes/contents/";
 
-const scrapeURL =
-  "https://raw.githubusercontent.com/ErikSzabo/bprof-notes-data/master/";
+const scrapeURL = "https://raw.githubusercontent.com/memnote/notes/master/";
 
 export default async (req, res) => {
   const rawMeta = await axios.get(`${baseURL}/metadata/`, {

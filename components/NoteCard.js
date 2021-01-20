@@ -3,7 +3,7 @@ import Link from "next/link";
 import styles from "../styles/Home.module.css";
 
 const thumbnailBaseUrl =
-  "https://raw.githubusercontent.com/ErikSzabo/bprof-notes-data/master/assets/thumbnails/";
+  "https://raw.githubusercontent.com/memnote/notes/master/assets/thumbnails/";
 
 function NoteCard({ title, description, fileName, date, subject }) {
   return (

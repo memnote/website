@@ -7,7 +7,7 @@ import Footer from "../../components/Footer";
 import { getNoteMarkdown } from "../../lib/requests";
 
 const thumbnailBaseUrl =
-  "https://raw.githubusercontent.com/ErikSzabo/bprof-notes-data/master/assets/thumbnails/";
+  "https://raw.githubusercontent.com/memnote/notes/master/assets/thumbnails/";
 
 const Post = ({ markdown, metaData }) => {
   const [content, setContent] = useState(markdown);
