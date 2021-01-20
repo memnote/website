@@ -4,10 +4,9 @@ import ReactMarkdown from "react-markdown";
 import matter from "gray-matter";
 import styles from "../../styles/Post.module.css";
 import Footer from "../../components/Footer";
+import CodeBlock from "../../components/CodeBlock";
 import { getNoteMarkdown } from "../../lib/requests";
-
-const thumbnailBaseUrl =
-  "https://raw.githubusercontent.com/memnote/notes/master/assets/thumbnails/";
+import { thumbnailUrl } from "../../lib/baseURLs";
 
 const Post = ({ markdown, metaData }) => {
   const [content, setContent] = useState(markdown);
@@ -21,7 +20,7 @@ const Post = ({ markdown, metaData }) => {
 
       <div
         style={{
-          backgroundImage: `url(${thumbnailBaseUrl}${meta.subject}.jpg)`,
+          backgroundImage: `url(${thumbnailUrl}${meta.subject}.jpg)`,
         }}
         className={styles.metaContainer}
       >
@@ -34,7 +33,7 @@ const Post = ({ markdown, metaData }) => {
       </div>
 
       <div className={styles.mdContainer}>
-        <ReactMarkdown>{content}</ReactMarkdown>
+        <ReactMarkdown renderers={{ code: CodeBlock }}>{content}</ReactMarkdown>
       </div>
       <Footer />
     </div>
