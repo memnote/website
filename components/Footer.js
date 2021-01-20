@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className={styles.footer}>
       <div>
         Szeretnél jegyzetet feltölteni? Esetleg hibát találtál?{" "}
-        <a target="blank" href="https://github.com/ErikSzabo/bprof-notes-data">
+        <a target="blank" href="https://github.com/memnote/notes">
           Irány a data repo
         </a>
       </div>
