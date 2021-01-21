@@ -42,8 +42,19 @@ const Post = ({ markdown, metaData }) => {
 
 export async function getServerSideProps(context) {
   const id = context.params.id;
-  const markdown = await getNoteMarkdown(id);
-  const metaData = JSON.stringify(matter(markdown).data);
+  let markdown, metaData;
+  try {
+    markdown = await getNoteMarkdown(id);
+    metaData = JSON.stringify(matter(markdown).data);
+  } catch (err) {
+    markdown =
+      "# Nincs ilyen jegyzet!\n Nem található ilyen jegyzet a data repoban. Valószínűleg hibás a link.";
+    metaData = JSON.stringify({
+      title: "Nem található",
+      description: "A keresett jegyzet nem található",
+      date: new Date().toLocaleDateString(),
+    });
+  }
 
   return {
     props: {
