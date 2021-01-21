@@ -185,4 +185,31 @@
   .card h3 {
     font-size: 1.2rem;
   }
+
+  .description {
+    line-height: 2;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .search > input {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    width: 280px;
+  }
+
+  .filter > select {
+    padding: 0.5rem;
+    max-width: 280px;
+  }
+
+  .description {
+    line-height: 2;
+    font-size: 1rem;
+  }
+
+  .title {
+    font-size: 3.5rem;
+  }
 }
