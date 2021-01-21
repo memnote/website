@@ -147,6 +147,11 @@
   width: 500px;
 }
 
+.loadingSpinner {
+  max-height: 30px;
+  margin-top: 50px;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;

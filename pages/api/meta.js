@@ -26,7 +26,16 @@ function sortDescendent(a, b) {
 export const getMetaData = async (
   { query, subject, page } = { query: null, subject: null, page: null }
 ) => {
-  let response;
+  let response = [];
+
+  for (let i = 0; i < 100; i++) {
+    response.push({
+      title: "Lazy loading teszt",
+      description: "Kicsit leírás azért mégse árt na, hát na na",
+      subject: "szoftech",
+      date: "2021-01-18",
+    });
+  }
 
   if (cache.hasCache()) {
     response = cache.getAll();

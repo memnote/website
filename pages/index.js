@@ -1,10 +1,9 @@
 import Head from "next/head";
 import { useState, useRef, useCallback } from "react";
-import axios from "axios";
 import Footer from "../components/Footer";
 import NoteCardList from "../components/NoteCardList";
 import styles from "../styles/Home.module.css";
-import { getNotesMetadata, getSubjects } from "../lib/requests";
+import { getSubjects } from "../lib/requests";
 import SearchFilter from "../components/SearchFilter";
 import { getMetaData } from "./api/meta";
 
@@ -12,6 +11,7 @@ export default function Home({ metaData, subjects, hasMorePage }) {
   const [metaDatas, setMetaDatas] = useState(metaData || []);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(hasMorePage);
+  const [loading, setLoading] = useState(false);
   const observer = useRef();
 
   const lastNoteRef = useCallback(
@@ -49,11 +49,19 @@ export default function Home({ metaData, subjects, hasMorePage }) {
           setPage={setPage}
           hasMore={hasMore}
           setHasMore={setHasMore}
+          setLoading={setLoading}
         />
 
         <NoteCardList refChange={lastNoteRef} metaDatas={metaDatas} />
+        {metaDatas.length <= 0 && !loading && (
+          <div>
+            <h2>Nem található a keresésnek megfelelő jegyzet!</h2>
+          </div>
+        )}
+        {loading && (
+          <img className={styles.loadingSpinner} src="./loading.gif" />
+        )}
       </main>
-
       <Footer />
     </div>
   );

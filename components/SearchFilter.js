@@ -9,13 +9,18 @@ function SearchFilter({
   setPage,
   hasMore,
   setHasMore,
+  setLoading,
 }) {
   const [query, setQuery] = useState("");
   const [subject, setSubject] = useState("");
 
   useEffect(() => {
-    let cancel;
+    if (subject.trim !== "") setMetaDatas([]);
+  }, [subject]);
 
+  useEffect(() => {
+    let cancel;
+    setLoading(true);
     axios
       .get(`/api/meta?search=${query}&subject=${subject}&page=1`, {
         cancelToken: new axios.CancelToken((c) => (cancel = c)),
@@ -24,21 +29,27 @@ function SearchFilter({
         setMetaDatas(metas.data.data);
         setPage(1);
         setHasMore(metas.data.pageCount > page);
+        setLoading(false);
       })
       .catch((err) => {
         if (axios.isCancel(err)) return;
       });
 
-    return () => cancel();
+    return () => {
+      setLoading(false);
+      cancel();
+    };
   }, [query, subject]);
 
   useEffect(() => {
     if (!hasMore) return;
+    setLoading(true);
     axios
       .get(`/api/meta?search=${query}&subject=${subject}&page=${page}`)
       .then((metas) => {
         setMetaDatas((prev) => [...prev, ...metas.data.data]);
         setHasMore(metas.data.pageCount > page);
+        setLoading(false);
       });
   }, [page]);
 
