@@ -85,7 +85,7 @@
 
 .card {
   margin: 1rem;
-  flex-basis: 45%;
+  width: 400px;
   padding: 1.5rem;
   text-align: left;
   color: inherit;
@@ -94,7 +94,6 @@
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
   cursor: pointer;
-  width: 400px;
 }
 
 .card:hover,
