@@ -94,6 +94,7 @@
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
   cursor: pointer;
+  min-height: 380px;
 }
 
 .card:hover,
@@ -110,7 +111,7 @@
 
 .card p {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1rem;
   line-height: 1.5;
 }
 
@@ -176,6 +177,7 @@
 
   .card {
     width: 300px;
+    min-height: auto;
   }
 
   .card p {
