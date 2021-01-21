@@ -9,7 +9,7 @@ function NoteCard({ title, description, fileName, date, subject, refChange }) {
       <div ref={refChange} className={styles.card}>
         <img
           className={styles.smallCardImg}
-          src={`${thumbnailUrl}${subject}.jpg`}
+          src={`${thumbnailUrl}/${subject}.svg`}
         />
 
         <h3>{title} &rarr;</h3>

@@ -6,7 +6,7 @@ import styles from "../../styles/Post.module.css";
 import Footer from "../../components/Footer";
 import CodeBlock from "../../components/CodeBlock";
 import { getNoteMarkdown } from "../../lib/requests";
-import { thumbnailUrl } from "../../lib/baseURLs";
+import { backgroundUrl } from "../../lib/baseURLs";
 
 const Post = ({ markdown, metaData }) => {
   const [content, setContent] = useState(markdown);
@@ -20,7 +20,7 @@ const Post = ({ markdown, metaData }) => {
 
       <div
         style={{
-          backgroundImage: `url(${thumbnailUrl}${meta.subject}.jpg)`,
+          backgroundImage: `url(${backgroundUrl}/${meta.subject}.svg)`,
         }}
         className={styles.metaContainer}
       >
