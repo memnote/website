@@ -13,12 +13,15 @@ function SearchFilter({
 }) {
   const [query, setQuery] = useState("");
   const [subject, setSubject] = useState("");
+  const [firstRender, setFirstRender] = useState(true);
 
   useEffect(() => {
-    if (subject.trim !== "") setMetaDatas([]);
+    if (query.trim() === "" && subject.trim() === "" && firstRender) return;
+    setMetaDatas([]);
   }, [subject]);
 
   useEffect(() => {
+    if (query.trim() === "" && subject.trim() === "" && firstRender) return;
     let cancel;
     setLoading(true);
     axios
@@ -52,6 +55,10 @@ function SearchFilter({
         setLoading(false);
       });
   }, [page]);
+
+  useEffect(() => {
+    setFirstRender(false);
+  }, []);
 
   return (
     <div className={styles.filter}>
