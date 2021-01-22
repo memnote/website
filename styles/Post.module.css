@@ -1,7 +1,5 @@
 .container {
-  max-width: 1160px;
   margin: auto;
-  padding: 20px;
 }
 
 .metaContainer {
@@ -10,6 +8,7 @@
   background-size: cover;
   background-position: center;
   position: relative;
+  width: 100%;
 }
 
 .metaOverlay {
@@ -21,8 +20,13 @@
   text-shadow: 2px 2px 10px #000;
 }
 
+.metaCenter {
+  max-width: 1080px;
+  margin: auto;
+}
+
 .metaText > p {
-  margin: 0 30px;
+  margin: 0;
   color: white;
   max-width: 750px;
   z-index: 10;
@@ -62,7 +66,13 @@
   }
 }
 
-@media (max-width: 1160px) {
+@media (max-width: 1100px) {
+  .metaText > p {
+    margin: 0 20px;
+  }
+}
+
+@media (max-width: 1120px) {
   .mdContainer {
     margin-left: 20px;
     min-height: calc(100vh - 400px);

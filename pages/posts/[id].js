@@ -5,10 +5,10 @@ import matter from "gray-matter";
 import styles from "../../styles/Post.module.css";
 import Footer from "../../components/Footer";
 import CodeBlock from "../../components/CodeBlock";
-import { getNoteMarkdown } from "../../lib/requests";
+import { getNoteMarkdown, getSubjects } from "../../lib/requests";
 import { backgroundUrl } from "../../lib/baseURLs";
 
-const Post = ({ markdown, metaData }) => {
+const Post = ({ markdown, metaData, subject }) => {
   const [content, setContent] = useState(markdown);
   const [meta, setMeta] = useState(JSON.parse(metaData));
 
@@ -31,9 +31,12 @@ const Post = ({ markdown, metaData }) => {
         className={styles.metaContainer}
       >
         <div className={styles.metaOverlay}>
-          <div className={styles.metaText}>
-            <p>{meta.title}</p>
-            <p>{new Date(meta.date).toLocaleDateString()}</p>
+          <div className={styles.metaCenter}>
+            <div className={styles.metaText}>
+              <p>{meta.title}</p>
+              <p>{subject}</p>
+              <p>{new Date(meta.date).toLocaleDateString()}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -48,10 +51,11 @@ const Post = ({ markdown, metaData }) => {
 
 export async function getServerSideProps(context) {
   const id = context.params.id;
-  let markdown, metaData;
+  let markdown, metaData, subjects;
   try {
     markdown = await getNoteMarkdown(id);
-    metaData = JSON.stringify(matter(markdown).data);
+    subjects = await getSubjects();
+    metaData = matter(markdown).data;
   } catch (err) {
     markdown =
       "# Nincs ilyen jegyzet!\n Nem található ilyen jegyzet a data repoban. Valószínűleg hibás a link.";
@@ -65,7 +69,8 @@ export async function getServerSideProps(context) {
   return {
     props: {
       markdown,
-      metaData,
+      metaData: JSON.stringify(metaData),
+      subject: subjects[metaData.subject],
     },
   };
 }

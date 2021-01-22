@@ -57,7 +57,6 @@ export default function Home({ metaData, subjects, hasMorePage }) {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Memnote</h1>
-
         <p className={styles.description}>
           Hasznos jegyzetek és segédletek{" "}
           <code className={styles.code}>Üzemmérnök informatikusoknak</code>

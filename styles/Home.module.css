@@ -27,6 +27,10 @@
   margin-top: 50px;
 }
 
+.main img {
+  width: 400px;
+}
+
 .footer img {
   margin-left: 0.5rem;
 }
