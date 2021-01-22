@@ -15,7 +15,13 @@ const Post = ({ markdown, metaData }) => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>{`Jegyzet - ${meta.title}`}</title>
+        <meta http-equiv="content-language" content="hu" />
+        <title>{`Memnote - ${meta.title}`}</title>
+        <meta name="og:title" content={`Memnote - ${meta.title}`} />
+        <meta name="title" content={`Memnote - ${meta.title}`} />
+        <meta name="description" content={meta.description} />
+        <meta name="og:description" content={meta.description} />
+        <meta name="revised" content={`Memnote, ${meta.date}`} />
       </Head>
 
       <div
