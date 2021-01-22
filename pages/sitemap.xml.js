@@ -21,7 +21,6 @@ export default class SiteMap extends React.Component {
             </urlset>
         `;
 
-    console.log(xml);
     res.setHeader("Content-Type", "text/xml");
     res.write(xml);
     res.end();
