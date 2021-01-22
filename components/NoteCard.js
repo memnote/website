@@ -3,18 +3,33 @@ import Link from "next/link";
 import styles from "../styles/Home.module.css";
 import { thumbnailUrl } from "../lib/baseURLs";
 
-function NoteCard({ title, description, fileName, date, subject, refChange }) {
+function NoteCard({
+  title,
+  description,
+  fileName,
+  date,
+  subject,
+  refChange,
+  longSubject,
+}) {
   return (
     <Link href={`/posts/${fileName}`}>
       <div ref={refChange} className={styles.card}>
-        <img
-          className={styles.smallCardImg}
-          src={`${thumbnailUrl}/${subject}.svg`}
-        />
+        <div className={styles.cardHeader}>
+          <img
+            className={styles.smallCardImg}
+            src={`${thumbnailUrl}/${subject}.svg`}
+          />
+          <div className={styles.headerTextContainer}>
+            <h3>{title} &rarr;</h3>
+            <p>{longSubject}</p>
+            <p className={styles.smallDate}>{date}</p>
+          </div>
+        </div>
 
-        <h3>{title} &rarr;</h3>
-        <p className={styles.smallDate}>{date}</p>
-        <p>{description}</p>
+        <div className={styles.cardTextContainer}>
+          <p>{description}</p>
+        </div>
       </div>
     </Link>
   );

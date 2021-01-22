@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../styles/Home.module.css";
 import NoteCard from "./NoteCard";
 
-function NoteCardList({ refChange, metaDatas = [] }) {
+function NoteCardList({ refChange, subjects, metaDatas = [] }) {
   return (
     <div className={styles.grid}>
       {metaDatas.map((d, i) => {
@@ -15,6 +15,7 @@ function NoteCardList({ refChange, metaDatas = [] }) {
               fileName={d.fileName}
               date={d.date}
               subject={d.subject}
+              longSubject={subjects[d.subject]}
               refChange={refChange}
             />
           );
@@ -27,6 +28,7 @@ function NoteCardList({ refChange, metaDatas = [] }) {
             fileName={d.fileName}
             date={d.date}
             subject={d.subject}
+            longSubject={subjects[d.subject]}
           />
         );
       })}

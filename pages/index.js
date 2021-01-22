@@ -52,7 +52,11 @@ export default function Home({ metaData, subjects, hasMorePage }) {
           setLoading={setLoading}
         />
 
-        <NoteCardList refChange={lastNoteRef} metaDatas={metaDatas} />
+        <NoteCardList
+          refChange={lastNoteRef}
+          subjects={subjects}
+          metaDatas={metaDatas}
+        />
         {metaDatas.length <= 0 && !loading && (
           <div>
             <h2>Nem található a keresésnek megfelelő jegyzet!</h2>
