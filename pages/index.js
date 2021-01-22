@@ -30,8 +30,8 @@ export default function Home({ metaData, subjects, hasMorePage }) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Memnote</title>
-        <meta http-equiv="content-language" content="hu" />
+        <title>Memnote - üzinfó jegyzetek</title>
+        <meta httpEquiv="content-language" content="hu" />
         <meta name="og:title" content="Memnote - üzinfó jegyzetek" />
         <meta name="title" content="Memnote - üzinfó jegyzetek" />
         <meta
