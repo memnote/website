@@ -30,21 +30,27 @@ export default function Home({ metaData, subjects, hasMorePage }) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Memnote - üzinfó jegyzetek</title>
         <meta httpEquiv="content-language" content="hu" />
-        <meta name="og:title" content="Memnote - üzinfó jegyzetek" />
-        <meta name="title" content="Memnote - üzinfó jegyzetek" />
+        <title>Memnote — üzinfó jegyzetek</title>
+        <meta name="title" content="Memnote — üzinfó jegyzetek" />
         <meta
           name="description"
           content="Bárki által szerkeszthető, bővíthető, hasznos jegyzetek és segédletek Üzemmérnök informatikusoknak"
         />
+
+        <meta property="og:type" content="blog" />
+        <meta property="og:url" content="https://memnote.net/" />
+        <meta property="og:title" content="Memnote — üzinfó jegyzetek" />
         <meta
-          name="og:description"
+          property="og:description"
           content="Bárki által szerkeszthető, bővíthető, hasznos jegyzetek és segédletek Üzemmérnök informatikusoknak"
         />
+
+        <meta property="twitter:url" content="https://memnote.net/" />
+        <meta property="twitter:title" content="Memnote — üzinfó jegyzetek" />
         <meta
-          name="keywords"
-          content="Memnote, memnote, jegyzetek, üzemmérnök, informatikus, jegyzet"
+          property="twitter:description"
+          content="Bárki által szerkeszthető, bővíthető, hasznos jegyzetek és segédletek Üzemmérnök informatikusoknak"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
