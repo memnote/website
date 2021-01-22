@@ -28,15 +28,6 @@ export const getMetaData = async (
 ) => {
   let response = [];
 
-  for (let i = 0; i < 100; i++) {
-    response.push({
-      title: "Lazy loading teszt",
-      description: "Kicsit leírás azért mégse árt na, hát na na",
-      subject: "szoftech",
-      date: "2021-01-18",
-    });
-  }
-
   if (cache.hasCache()) {
     response = cache.getAll();
   } else {
