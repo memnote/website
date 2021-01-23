@@ -41,7 +41,7 @@ export default function Home({ metaData, subjects, hasMorePage }) {
           content="Bárki által szerkeszthető, bővíthető, hasznos jegyzetek és segédletek üzemmérnök-informatikusoknak."
         />
 
-        <meta property="og:type" content="blog" />
+        <meta property="og:type" content="website" />
         <meta property="og:url" content="https://memnote.net/" />
         <meta
           property="og:title"
@@ -51,7 +51,7 @@ export default function Home({ metaData, subjects, hasMorePage }) {
           property="og:description"
           content="Bárki által szerkeszthető, bővíthető, hasznos jegyzetek és segédletek üzemmérnök-informatikusoknak."
         />
-        <meta name="og:image" content="/android-chrome-192x192.png" />
+        {/* <meta name="og:image" content="/android-chrome-192x192.png" /> */}
 
         <meta property="twitter:url" content="https://memnote.net/" />
         <meta
@@ -62,26 +62,10 @@ export default function Home({ metaData, subjects, hasMorePage }) {
           property="twitter:description"
           content="Bárki által szerkeszthető, bővíthető, hasznos jegyzetek és segédletek üzemmérnök-informatikusoknak."
         />
-        <meta name="twitter:image" content="/android-chrome-192x192.png" />
         <meta name="twitter:card" content="summary" />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
-        <link rel="manifest" href="/site.webmanifest" />
+        {/* <meta name="twitter:image" content="/android-chrome-192x192.png" /> */}
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
