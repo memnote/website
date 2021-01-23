@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
-import { thumbnailUrl } from "../lib/baseURLs";
+import { backgroundUrl } from "../lib/baseURLs";
 
 function NoteCard({
   title,
@@ -18,7 +18,7 @@ function NoteCard({
         <div className={styles.cardHeader}>
           <img
             className={styles.smallCardImg}
-            src={`${thumbnailUrl}/${subject}.svg`}
+            src={`${backgroundUrl}/${subject}.svg`}
           />
           <div className={styles.headerTextContainer}>
             <h3>{title} &rarr;</h3>
