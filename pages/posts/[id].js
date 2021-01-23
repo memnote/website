@@ -32,6 +32,10 @@ const Post = ({ markdown, metaData, subject }) => {
           name="twitter:description"
           content={`Üzemmérnök-informatikus jegyzet - ${meta.description}`}
         />
+        <meta name="og:image" content="/android-chrome-512x512.png" />
+        <meta name="twitter:image" content="/android-chrome-512x512.png" />
+        <meta property="og:image:width" content="512" />
+        <meta property="og:image:height" content="512" />
         <meta name="revised" content={`Memnote, ${meta.date}`} />
       </Head>
 

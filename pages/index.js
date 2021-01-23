@@ -51,6 +51,9 @@ export default function Home({ metaData, subjects, hasMorePage }) {
           property="og:description"
           content="Bárki által szerkeszthető, bővíthető, hasznos jegyzetek és segédletek üzemmérnök-informatikusoknak."
         />
+        <meta name="og:image" content="/android-chrome-512x512.png" />
+        <meta property="og:image:width" content="512" />
+        <meta property="og:image:height" content="512" />
 
         <meta property="twitter:url" content="https://memnote.net/" />
         <meta
@@ -61,6 +64,7 @@ export default function Home({ metaData, subjects, hasMorePage }) {
           property="twitter:description"
           content="Bárki által szerkeszthető, bővíthető, hasznos jegyzetek és segédletek üzemmérnök-informatikusoknak."
         />
+        <meta name="twitter:image" content="/android-chrome-512x512.png" />
         <link
           rel="apple-touch-icon"
           sizes="180x180"
