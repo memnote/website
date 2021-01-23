@@ -65,6 +65,10 @@
   margin: auto;
 }
 
+.mdContainer a {
+  color: #0070f3;
+}
+
 .mdContainer > h2:nth-child(2) {
   display: none;
 }
