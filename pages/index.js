@@ -31,26 +31,35 @@ export default function Home({ metaData, subjects, hasMorePage }) {
     <div className={styles.container}>
       <Head>
         <meta httpEquiv="content-language" content="hu" />
-        <title>Memnote — üzinfó jegyzetek</title>
-        <meta name="title" content="Memnote — üzinfó jegyzetek" />
+        <title>Memnote - jegyzetek üzemmérnök-informatikusoknak</title>
+        <meta
+          name="title"
+          content="Memnote - jegyzetek üzemmérnök-informatikusoknak"
+        />
         <meta
           name="description"
-          content="Bárki által szerkeszthető, bővíthető, hasznos jegyzetek és segédletek Üzemmérnök informatikusoknak"
+          content="Bárki által szerkeszthető, bővíthető, hasznos jegyzetek és segédletek üzemmérnök-informatikusoknak."
         />
 
         <meta property="og:type" content="blog" />
         <meta property="og:url" content="https://memnote.net/" />
-        <meta property="og:title" content="Memnote — üzinfó jegyzetek" />
+        <meta
+          property="og:title"
+          content="Memnote - jegyzetek üzemmérnök-informatikusoknak"
+        />
         <meta
           property="og:description"
-          content="Bárki által szerkeszthető, bővíthető, hasznos jegyzetek és segédletek Üzemmérnök informatikusoknak"
+          content="Bárki által szerkeszthető, bővíthető, hasznos jegyzetek és segédletek üzemmérnök-informatikusoknak."
         />
 
         <meta property="twitter:url" content="https://memnote.net/" />
-        <meta property="twitter:title" content="Memnote — üzinfó jegyzetek" />
+        <meta
+          property="twitter:title"
+          content="Memnote - jegyzetek üzemmérnök-informatikusoknak"
+        />
         <meta
           property="twitter:description"
-          content="Bárki által szerkeszthető, bővíthető, hasznos jegyzetek és segédletek Üzemmérnök informatikusoknak"
+          content="Bárki által szerkeszthető, bővíthető, hasznos jegyzetek és segédletek üzemmérnök-informatikusoknak."
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>

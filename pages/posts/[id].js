@@ -17,10 +17,21 @@ const Post = ({ markdown, metaData, subject }) => {
       <Head>
         <meta httpEquiv="content-language" content="hu" />
         <title>{`Memnote - ${meta.title}`}</title>
-        <meta name="og:title" content={`Memnote - ${meta.title}`} />
         <meta name="title" content={`Memnote - ${meta.title}`} />
-        <meta name="description" content={meta.description} />
-        <meta name="og:description" content={meta.description} />
+        <meta name="og:title" content={`Memnote - ${meta.title}`} />
+        <meta name="twitter:title" content={`Memnote - ${meta.title}`} />
+        <meta
+          name="description"
+          content={`Üzemmérnök-informatikus jegyzet - ${meta.description}`}
+        />
+        <meta
+          name="og:description"
+          content={`Üzemmérnök-informatikus jegyzet - ${meta.description}`}
+        />
+        <meta
+          name="twitter:description"
+          content={`Üzemmérnök-informatikus jegyzet - ${meta.description}`}
+        />
         <meta name="revised" content={`Memnote, ${meta.date}`} />
       </Head>
 
