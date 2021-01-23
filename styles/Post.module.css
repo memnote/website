@@ -25,6 +25,7 @@
   margin: auto;
 }
 
+.backMeta,
 .metaText > p {
   margin: 0;
   color: white;
@@ -32,15 +33,30 @@
   z-index: 10;
 }
 
+.backMeta {
+  display: flex;
+}
+
 .metaText > p:first-child {
   font-size: 3rem;
   font-weight: bold;
   margin-top: auto;
+  line-height: 1.2;
+  margin-bottom: 15px;
 }
 
 .metaText {
   position: absolute;
   bottom: 20px;
+}
+
+.backMeta > div > p {
+  margin: 0;
+  margin-left: 10px;
+}
+
+.backMeta > i {
+  cursor: pointer;
 }
 
 .mdContainer {
@@ -62,19 +78,27 @@
   }
 
   .metaText > p:first-child {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+    margin-right: 10px;
   }
 }
 
 @media (max-width: 1100px) {
   .metaText > p {
-    margin: 0 20px;
+    margin: 0;
+    margin-left: 20px;
+  }
+
+  .backMeta {
+    margin: 0;
+    margin-left: 20px;
   }
 }
 
 @media (max-width: 1120px) {
   .mdContainer {
     margin-left: 20px;
+    margin-right: 20px;
     min-height: calc(100vh - 400px);
   }
 }

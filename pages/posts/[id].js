@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import matter from "gray-matter";
@@ -15,6 +16,10 @@ const Post = ({ markdown, metaData, subject }) => {
   return (
     <div className={styles.container}>
       <Head>
+        <link
+          rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
+        />
         <meta httpEquiv="content-language" content="hu" />
         <title>{`Memnote - ${meta.title}`}</title>
         <meta name="title" content={`Memnote - ${meta.title}`} />
@@ -50,8 +55,18 @@ const Post = ({ markdown, metaData, subject }) => {
           <div className={styles.metaCenter}>
             <div className={styles.metaText}>
               <p>{meta.title}</p>
-              <p>{subject}</p>
-              <p>{new Date(meta.date).toLocaleDateString()}</p>
+              <div className={styles.backMeta}>
+                <Link href="/">
+                  <i
+                    class="fa fa-chevron-circle-left fa-3x"
+                    aria-hidden="true"
+                  />
+                </Link>
+                <div>
+                  <p>Eseményvezérelt és vizuális programozás </p>
+                  <p>{new Date(meta.date).toLocaleDateString()}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
