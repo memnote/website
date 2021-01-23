@@ -177,7 +177,8 @@
 }
 
 .loadingSpinner {
-  max-height: 30px;
+  height: 30px !important;
+  width: 30px !important;
   margin-top: 50px;
 }
 
