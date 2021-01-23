@@ -65,6 +65,7 @@ export default function Home({ metaData, subjects, hasMorePage }) {
           content="Bárki által szerkeszthető, bővíthető, hasznos jegyzetek és segédletek üzemmérnök-informatikusoknak."
         />
         <meta name="twitter:image" content="/android-chrome-512x512.png" />
+        <meta name="twitter:card" content="summary_large_image" />
         <link
           rel="apple-touch-icon"
           sizes="180x180"
