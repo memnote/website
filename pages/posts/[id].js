@@ -63,7 +63,7 @@ const Post = ({ markdown, metaData, subject }) => {
                   />
                 </Link>
                 <div>
-                  <p>Eseményvezérelt és vizuális programozás </p>
+                  <p>{subject}</p>
                   <p>{new Date(meta.date).toLocaleDateString()}</p>
                 </div>
               </div>
