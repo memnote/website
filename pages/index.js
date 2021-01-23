@@ -31,10 +31,10 @@ export default function Home({ metaData, subjects, hasMorePage }) {
     <div className={styles.container}>
       <Head>
         <meta httpEquiv="content-language" content="hu" />
-        <title>Memnote - jegyzetek üzemmérnök-informatikusoknak</title>
+        <title>Memnote - Jegyzetek üzemmérnök-informatikusoknak</title>
         <meta
           name="title"
-          content="Memnote - jegyzetek üzemmérnök-informatikusoknak"
+          content="Memnote - Jegyzetek üzemmérnök-informatikusoknak"
         />
         <meta
           name="description"
@@ -45,7 +45,7 @@ export default function Home({ metaData, subjects, hasMorePage }) {
         <meta property="og:url" content="https://memnote.net/" />
         <meta
           property="og:title"
-          content="Memnote - jegyzetek üzemmérnök-informatikusoknak"
+          content="Memnote - Jegyzetek üzemmérnök-informatikusoknak"
         />
         <meta
           property="og:description"
@@ -55,13 +55,30 @@ export default function Home({ metaData, subjects, hasMorePage }) {
         <meta property="twitter:url" content="https://memnote.net/" />
         <meta
           property="twitter:title"
-          content="Memnote - jegyzetek üzemmérnök-informatikusoknak"
+          content="Memnote - Jegyzetek üzemmérnök-informatikusoknak"
         />
         <meta
           property="twitter:description"
           content="Bárki által szerkeszthető, bővíthető, hasznos jegyzetek és segédletek üzemmérnök-informatikusoknak."
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
       </Head>
 
       <main className={styles.main}>
