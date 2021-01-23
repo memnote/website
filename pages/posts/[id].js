@@ -36,7 +36,7 @@ const Post = ({ markdown, metaData, subject }) => {
         <meta property="og:image:width" content="200" />
         <meta property="og:image:height" content="200" />
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:image" content="/android-chrome-192x192.png" />
+        <meta name="twitter:image" content="/og-image.png" />
         <meta name="revised" content={`Memnote, ${meta.date}`} />
       </Head>
 
