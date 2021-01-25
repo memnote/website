@@ -5,11 +5,13 @@ import { actions, ApplicationContext } from "../pages";
 import styles from "../styles/Search.module.css";
 
 function SearchFilter() {
-  const [query, setQuery] = useState("");
-  const [subject, setSubject] = useState("");
   const [firstRender, setFirstRender] = useState(true);
-
   const { subjects, hasMore, dispatch, page } = useContext(ApplicationContext);
+  const router = useRouter();
+
+  const {
+    query: { search: query = "", subject = "" },
+  } = router;
 
   useEffect(() => {
     if (query.trim() === "" && subject.trim() === "" && firstRender) return;
@@ -63,15 +65,56 @@ function SearchFilter() {
     setFirstRender(false);
   }, []);
 
+  const handleSubjectChange = (e) => {
+    const value = e.target.value;
+    if (value && query) {
+      router.push(
+        { pathname: "/", query: { search: query, subject: value } },
+        null,
+        { shallow: true }
+      );
+    } else if (value) {
+      router.push({ pathname: "/", query: { subject: value } }, null, {
+        shallow: true,
+      });
+    } else if (query) {
+      router.push({ pathname: "/", query: { search: query } }, null, {
+        shallow: true,
+      });
+    } else {
+      router.push({ pathname: "/" }, null, { shallow: true });
+    }
+  };
+
+  const handleSearchChanged = (e) => {
+    const search = e.target.value;
+    if (search && subject) {
+      router.push({ pathname: "/", query: { search, subject } }, null, {
+        shallow: true,
+      });
+    } else if (search) {
+      router.push({ pathname: "/", query: { search } }, null, {
+        shallow: true,
+      });
+    } else if (subject) {
+      router.push({ pathname: "/", query: { subject } }, null, {
+        shallow: true,
+      });
+    } else {
+      router.push({ pathname: "/" }, null, { shallow: true });
+    }
+  };
+
   return (
     <div className={styles.filter}>
       <input
+        value={query}
         className={styles.search}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={handleSearchChanged}
         type="text"
         placeholder="Írj ide a kereséshez..."
       />
-      <select value={subject} onChange={(e) => setSubject(e.target.value)}>
+      <select value={subject} onChange={handleSubjectChange}>
         <option value="">Válassz tantárgyat</option>
         {Object.entries(subjects).map(([k, v], i) => {
           return (
