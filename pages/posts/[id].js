@@ -2,12 +2,18 @@ import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
+import gfm from "remark-gfm";
+import htmlParser from "react-markdown/plugins/html-parser";
 import matter from "gray-matter";
 import styles from "../../styles/Post.module.css";
 import Footer from "../../components/Footer";
 import CodeBlock from "../../components/CodeBlock";
 import { getNoteMarkdown, getSubjects } from "../../lib/requests";
 import { backgroundUrl } from "../../lib/baseURLs";
+
+const parseHtml = htmlParser({
+  isValidNode: (node) => node.type === "tag" && node.name === "u",
+});
 
 const Post = ({ markdown, metaData, subject }) => {
   const [content, setContent] = useState(markdown);
@@ -58,7 +64,7 @@ const Post = ({ markdown, metaData, subject }) => {
               <div className={styles.backMeta}>
                 <Link href="/">
                   <i
-                    class="fa fa-chevron-circle-left fa-3x"
+                    className="fa fa-chevron-circle-left fa-3x"
                     aria-hidden="true"
                   />
                 </Link>
@@ -73,7 +79,14 @@ const Post = ({ markdown, metaData, subject }) => {
       </div>
 
       <div className={styles.mdContainer}>
-        <ReactMarkdown renderers={{ code: CodeBlock }}>{content}</ReactMarkdown>
+        <ReactMarkdown
+          astPlugins={[parseHtml]}
+          allowDangerousHtml
+          plugins={[gfm]}
+          renderers={{ code: CodeBlock }}
+        >
+          {content}
+        </ReactMarkdown>
       </div>
       <Footer />
     </div>
