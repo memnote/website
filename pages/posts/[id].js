@@ -7,6 +7,7 @@ import htmlParser from "react-markdown/plugins/html-parser";
 import matter from "gray-matter";
 import styles from "../../styles/Post.module.css";
 import Footer from "../../components/Footer";
+import FourOhFour from "../404";
 import CodeBlock from "../../components/CodeBlock";
 import { getNoteMarkdown, getSubjects } from "../../lib/requests";
 import { backgroundUrl } from "../../lib/baseURLs";
@@ -15,11 +16,11 @@ const parseHtml = htmlParser({
   isValidNode: (node) => node.type === "tag" && node.name === "u",
 });
 
-const Post = ({ markdown, metaData, subject }) => {
+const Post = ({ markdown, metaData, subject, found }) => {
   const [content, setContent] = useState(markdown);
-  const [meta, setMeta] = useState(JSON.parse(metaData));
+  const [meta, setMeta] = useState(metaData && JSON.parse(metaData));
 
-  return (
+  return found ? (
     <div className={styles.container}>
       <Head>
         <link
@@ -90,33 +91,35 @@ const Post = ({ markdown, metaData, subject }) => {
       </div>
       <Footer />
     </div>
+  ) : (
+    <FourOhFour />
   );
 };
 
-export async function getServerSideProps(context) {
-  const id = context.params.id;
-  let markdown, metaData, subjects;
+export async function getServerSideProps({ params, res }) {
+  const id = params.id;
+  let markdown, metaData, subjects, subject;
   try {
     markdown = await getNoteMarkdown(id);
     subjects = await getSubjects();
     metaData = matter(markdown).data;
-  } catch (err) {
-    markdown =
-      "# Nincs ilyen jegyzet!\n Nem található ilyen jegyzet a data repoban. Valószínűleg hibás a link.";
-    metaData = JSON.stringify({
-      title: "Nem található",
-      description: "A keresett jegyzet nem található",
-      date: new Date().toLocaleDateString(),
-    });
-  }
+    subject = subjects[metaData.subject];
 
-  return {
-    props: {
-      markdown,
-      metaData: JSON.stringify(metaData),
-      subject: subjects[metaData.subject],
-    },
-  };
+    return {
+      props: {
+        markdown,
+        metaData: JSON.stringify(metaData),
+        subject,
+        found: true,
+      },
+    };
+  } catch (err) {
+    return {
+      props: {
+        found: false,
+      },
+    };
+  }
 }
 
 export default Post;

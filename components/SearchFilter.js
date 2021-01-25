@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import styles from "../styles/Home.module.css";
+import styles from "../styles/Search.module.css";
 
 function SearchFilter({
   subjects,
@@ -62,13 +62,12 @@ function SearchFilter({
 
   return (
     <div className={styles.filter}>
-      <div className={styles.search}>
-        <input
-          onChange={(e) => setQuery(e.target.value)}
-          type="text"
-          placeholder="Írj ide a kereséshez..."
-        />
-      </div>
+      <input
+        className={styles.search}
+        onChange={(e) => setQuery(e.target.value)}
+        type="text"
+        placeholder="Írj ide a kereséshez..."
+      />
       <select value={subject} onChange={(e) => setSubject(e.target.value)}>
         <option value="">Válassz tantárgyat</option>
         {Object.entries(subjects).map(([k, v], i) => {

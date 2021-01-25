@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import styles from "../styles/Home.module.css";
+import styles from "../styles/Note.module.css";
 import { backgroundUrl } from "../lib/baseURLs";
 
 function NoteCard({
@@ -15,7 +15,7 @@ function NoteCard({
   return (
     <Link href={`/posts/${fileName}`}>
       <div ref={refChange} className={styles.card}>
-        <div className={styles.cardHeader}>
+        <div>
           <img
             className={styles.smallCardImg}
             src={`${backgroundUrl}/${subject}.svg`}

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../styles/Home.module.css";
+import styles from "../styles/Note.module.css";
 import NoteCard from "./NoteCard";
 
 function NoteCardList({ refChange, subjects, metaDatas = [] }) {
