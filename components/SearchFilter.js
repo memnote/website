@@ -1,58 +1,61 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import React, { useState, useEffect, useContext } from "react";
+import { actions, ApplicationContext } from "../pages";
 import styles from "../styles/Search.module.css";
 
-function SearchFilter({
-  subjects,
-  setMetaDatas,
-  page,
-  setPage,
-  hasMore,
-  setHasMore,
-  setLoading,
-}) {
+function SearchFilter() {
   const [query, setQuery] = useState("");
   const [subject, setSubject] = useState("");
   const [firstRender, setFirstRender] = useState(true);
 
+  const { subjects, hasMore, dispatch, page } = useContext(ApplicationContext);
+
   useEffect(() => {
     if (query.trim() === "" && subject.trim() === "" && firstRender) return;
-    setMetaDatas([]);
+    dispatch({ type: actions.SET_META, payload: [] });
   }, [subject]);
 
   useEffect(() => {
     if (query.trim() === "" && subject.trim() === "" && firstRender) return;
     let cancel;
-    setLoading(true);
+    dispatch({ type: actions.SET_LOADING, payload: true });
     axios
       .get(`/api/meta?search=${query}&subject=${subject}&page=1`, {
         cancelToken: new axios.CancelToken((c) => (cancel = c)),
       })
       .then((metas) => {
-        setMetaDatas(metas.data.data);
-        setPage(1);
-        setHasMore(metas.data.pageCount > page);
-        setLoading(false);
+        const hasMore = metas.data.pageCount > page;
+        dispatch({ type: actions.SET_META, payload: metas.data.data });
+        dispatch({ type: actions.SET_PAGE, payload: 1 });
+        dispatch({ type: actions.SET_HASMORE, payload: hasMore });
+        dispatch({ type: actions.SET_LOADING, payload: false });
       })
       .catch((err) => {
         if (axios.isCancel(err)) return;
       });
 
     return () => {
-      setLoading(false);
+      dispatch({ type: actions.SET_LOADING, payload: false });
       cancel();
     };
   }, [query, subject]);
 
   useEffect(() => {
     if (!hasMore) return;
-    setLoading(true);
+    dispatch({ type: actions.SET_LOADING, payload: true });
     axios
-      .get(`/api/meta?search=${query}&subject=${subject}&page=${page}`)
+      .get(`/api/meta?search=${query}&subject=${subject}&page=${page}`, {
+        validateStatus: (status) => status < 400,
+      })
       .then((metas) => {
-        setMetaDatas((prev) => [...prev, ...metas.data.data]);
-        setHasMore(metas.data.pageCount > page);
-        setLoading(false);
+        const hasMore = metas.data.pageCount > page;
+        dispatch({ type: actions.SET_HASMORE, payload: hasMore });
+        dispatch({ type: actions.ADD_META, payload: metas.data.data });
+        dispatch({ type: actions.SET_LOADING, payload: false });
+      })
+      .catch((err) => {
+        // There is nothing here, user probably scrolled like blazing fast
       });
   }, [page]);
 
