@@ -6,6 +6,7 @@ import styles from "../styles/Home.module.css";
 import { getSubjects } from "../lib/requests";
 import SearchFilter from "../components/SearchFilter";
 import { getMetaData } from "./api/meta";
+import ScrollTop from "../components/ScrollTop";
 
 export default function Home({ metaData, subjects, hasMorePage }) {
   const [metaDatas, setMetaDatas] = useState(metaData || []);
@@ -106,6 +107,7 @@ export default function Home({ metaData, subjects, hasMorePage }) {
         </div>
       </main>
       <Footer />
+      <ScrollTop />
     </div>
   );
 }
