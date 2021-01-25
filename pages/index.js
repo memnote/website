@@ -70,35 +70,40 @@ export default function Home({ metaData, subjects, hasMorePage }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>Memnote</h1>
-        <p className={styles.description}>
-          Hasznos jegyzetek és segédletek üzemmérnök-informatikusoknak.
-        </p>
+      <main>
+        <div className={styles.hero}>
+          <div className={styles.heroMain}>
+            <h1 className={styles.title}>Memnote</h1>
+            <p className={styles.description}>
+              Hasznos jegyzetek és segédletek üzemmérnök-informatikusoknak.
+            </p>
 
-        <SearchFilter
-          setMetaDatas={setMetaDatas}
-          subjects={subjects}
-          page={page}
-          setPage={setPage}
-          hasMore={hasMore}
-          setHasMore={setHasMore}
-          setLoading={setLoading}
-        />
-
-        <NoteCardList
-          refChange={lastNoteRef}
-          subjects={subjects}
-          metaDatas={metaDatas}
-        />
-        {metaDatas.length <= 0 && !loading && (
-          <div>
-            <h2>Nem található a keresésnek megfelelő jegyzet!</h2>
+            <SearchFilter
+              setMetaDatas={setMetaDatas}
+              subjects={subjects}
+              page={page}
+              setPage={setPage}
+              hasMore={hasMore}
+              setHasMore={setHasMore}
+              setLoading={setLoading}
+            />
           </div>
-        )}
-        {loading && (
-          <img className={styles.loadingSpinner} src="./loading.gif" />
-        )}
+        </div>
+        <div className={styles.main}>
+          <NoteCardList
+            refChange={lastNoteRef}
+            subjects={subjects}
+            metaDatas={metaDatas}
+          />
+          {metaDatas.length <= 0 && !loading && (
+            <div>
+              <h2>Nem található a keresésnek megfelelő jegyzet!</h2>
+            </div>
+          )}
+          {loading && (
+            <img className={styles.loadingSpinner} src="./loading.gif" />
+          )}
+        </div>
       </main>
       <Footer />
     </div>

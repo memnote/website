@@ -1,23 +1,40 @@
-.main h1,
-.main p {
+.heroMain h1,
+.heroMain p {
   margin: 0;
   padding: 0;
 }
 
-.container {
-  min-height: 100vh;
-  padding: 0 0.5rem;
+.container main {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.main {
+.hero {
+  width: 100%;
+  background: linear-gradient(45deg, #242424, #686868);
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  height: 350px;
+  color: rgb(221, 221, 221);
+  text-shadow: 2px 2px 5px black;
+}
+
+.main,
+.heroMain {
   max-width: 1345px;
-  padding: 20px;
-  padding-top: 50px;
-  min-height: calc(100vh - 150px);
+  padding: 0 20px;
   position: relative;
+}
+
+.heroMain {
+  padding-top: 50px;
+}
+
+.main {
+  min-height: calc(100vh - 180px);
 }
 
 .footer {
@@ -71,26 +88,32 @@
 }
 
 @media (max-width: 1345px) {
-  .main {
+  .main,
+  .heroMain {
     max-width: 875px;
   }
 }
 
 @media (max-width: 900px) {
-  .main {
+  .main,
+  .heroMain {
     max-width: 640px;
   }
-}
 
-@media (max-width: 600px) {
-  .title,
-  .description {
-    text-align: center;
-    max-width: 350px;
+  .heroMain {
+    padding-top: 35px;
   }
 
   .description {
     font-size: 1rem;
+  }
+}
+
+@media (max-width: 650px) {
+  .title,
+  .description {
+    text-align: center;
+    max-width: 350px;
   }
 }
 
