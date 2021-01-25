@@ -17,6 +17,7 @@
   padding: 20px;
   padding-top: 50px;
   min-height: calc(100vh - 150px);
+  position: relative;
 }
 
 .footer {
@@ -63,7 +64,10 @@
 .loadingSpinner {
   height: 30px !important;
   width: 30px !important;
-  margin-top: 50px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 20px;
 }
 
 @media (max-width: 1345px) {
