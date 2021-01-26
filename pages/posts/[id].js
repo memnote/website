@@ -64,7 +64,6 @@ const Post = ({ markdown, metaData, subject, found }) => {
                 <Link href="/">
                   <FontAwesomeIcon
                     className={styles.backIcon}
-                    alphabetic={true}
                     size="3x"
                     icon={faCaretSquareLeft}
                   />
