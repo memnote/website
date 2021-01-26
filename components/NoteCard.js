@@ -19,6 +19,7 @@ function NoteCard({
           <img
             className={styles.smallCardImg}
             src={`${backgroundUrl}/${subject}.svg`}
+            alt={`${longSubject} thumbnail`}
           />
           <div className={styles.headerTextContainer}>
             <h3>{title} &rarr;</h3>

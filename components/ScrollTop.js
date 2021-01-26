@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { faCaretSquareUp } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function ScrollTop() {
   const [visible, setVisible] = useState(false);
@@ -18,10 +20,6 @@ function ScrollTop() {
 
   return (
     <>
-      <link
-        rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
-      />
       <div
         style={{
           opacity: visible ? "1" : "0",
@@ -34,9 +32,9 @@ function ScrollTop() {
         }}
         onClick={scrollTop}
       >
-        <img
+        <FontAwesomeIcon
           style={{ width: "50px", height: "50px", userSelect: "none" }}
-          src="/arrow-up.svg"
+          icon={faCaretSquareUp}
         />
       </div>
     </>

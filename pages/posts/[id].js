@@ -9,6 +9,8 @@ import styles from "../../styles/Post.module.css";
 import Footer from "../../components/Footer";
 import FourOhFour from "../404";
 import CodeBlock from "../../components/CodeBlock";
+import { faCaretSquareLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getNoteMarkdown, getSubjects } from "../../lib/requests";
 import { backgroundUrl } from "../../lib/baseURLs";
 
@@ -23,10 +25,6 @@ const Post = ({ markdown, metaData, subject, found }) => {
   return found ? (
     <div className={styles.container}>
       <Head>
-        <link
-          rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
-        />
         <meta httpEquiv="content-language" content="hu" />
         <title>{`Memnote - ${meta.title}`}</title>
         <meta name="title" content={`Memnote - ${meta.title}`} />
@@ -64,9 +62,11 @@ const Post = ({ markdown, metaData, subject, found }) => {
               <p>{meta.title}</p>
               <div className={styles.backMeta}>
                 <Link href="/">
-                  <i
-                    className="fa fa-chevron-circle-left fa-3x"
-                    aria-hidden="true"
+                  <FontAwesomeIcon
+                    className={styles.backIcon}
+                    alphabetic={true}
+                    size="3x"
+                    icon={faCaretSquareLeft}
                   />
                 </Link>
                 <div>
