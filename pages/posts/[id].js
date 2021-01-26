@@ -13,9 +13,12 @@ import { faCaretSquareLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getNoteMarkdown, getSubjects } from "../../lib/requests";
 import { backgroundUrl } from "../../lib/baseURLs";
+import Table from "../../components/Table";
 
 const parseHtml = htmlParser({
-  isValidNode: (node) => node.type === "tag" && node.name === "u",
+  isValidNode: (node) =>
+    node.type === "tag" &&
+    (node.name === "u" || node.name === "sub" || node.name === "sup"),
 });
 
 const Post = ({ markdown, metaData, subject, found }) => {
@@ -83,7 +86,7 @@ const Post = ({ markdown, metaData, subject, found }) => {
           astPlugins={[parseHtml]}
           allowDangerousHtml
           plugins={[gfm]}
-          renderers={{ code: CodeBlock }}
+          renderers={{ code: CodeBlock, table: Table }}
         >
           {content}
         </ReactMarkdown>
