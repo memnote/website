@@ -34,7 +34,7 @@
 }
 
 .main {
-  min-height: calc(100vh - 180px);
+  min-height: calc(100vh - 500px);
 }
 
 .footer {

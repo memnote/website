@@ -2,6 +2,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useState, useEffect, useContext } from "react";
 import { actions, ApplicationContext } from "../pages";
+import { normalizeQuery } from "../lib/utils";
 import styles from "../styles/Search.module.css";
 
 function SearchFilter() {
@@ -10,54 +11,56 @@ function SearchFilter() {
   const router = useRouter();
 
   const {
-    query: { search: query = "", subject = "" },
+    query: { search = "", subject = "" },
   } = router;
 
   useEffect(() => {
-    if (query.trim() === "" && subject.trim() === "" && firstRender) return;
-    dispatch({ type: actions.SET_META, payload: [] });
+    if (firstRender) return;
+    dispatch({ type: actions.CLEAR_METADATA });
   }, [subject]);
 
   useEffect(() => {
-    if (query.trim() === "" && subject.trim() === "" && firstRender) return;
+    if (firstRender) return;
     let cancel;
-    dispatch({ type: actions.SET_LOADING, payload: true });
+    dispatch({ type: actions.START_LOADING });
     axios
-      .get(`/api/meta?search=${query}&subject=${subject}&page=1`, {
+      .get(`/api/meta`, {
+        params: normalizeQuery({ search, subject, page: 1 }),
         cancelToken: new axios.CancelToken((c) => (cancel = c)),
       })
-      .then((metas) => {
-        const hasMore = metas.data.pageCount > page;
-        dispatch({ type: actions.SET_META, payload: metas.data.data });
-        dispatch({ type: actions.SET_PAGE, payload: 1 });
-        dispatch({ type: actions.SET_HASMORE, payload: hasMore });
-        dispatch({ type: actions.SET_LOADING, payload: false });
+      .then(({ data: { data: metaDatas, pageCount } }) => {
+        dispatch({
+          type: actions.FINISH_QUERY_FETCHING,
+          payload: { hasMore: pageCount > page, metaDatas },
+        });
       })
       .catch((err) => {
         if (axios.isCancel(err)) return;
+        dispatch({ type: actions.FINISH_LOADING });
       });
 
     return () => {
-      dispatch({ type: actions.SET_LOADING, payload: false });
+      dispatch({ type: actions.FINISH_LOADING });
       cancel();
     };
-  }, [query, subject]);
+  }, [search, subject]);
 
   useEffect(() => {
     if (!hasMore) return;
-    dispatch({ type: actions.SET_LOADING, payload: true });
+    dispatch({ type: actions.START_LOADING });
     axios
-      .get(`/api/meta?search=${query}&subject=${subject}&page=${page}`, {
+      .get(`/api/meta`, {
+        params: normalizeQuery({ search, subject, page }),
         validateStatus: (status) => status < 400,
       })
-      .then((metas) => {
-        const hasMore = metas.data.pageCount > page;
-        dispatch({ type: actions.SET_HASMORE, payload: hasMore });
-        dispatch({ type: actions.ADD_META, payload: metas.data.data });
-        dispatch({ type: actions.SET_LOADING, payload: false });
+      .then(({ data: { data: metaDatas, pageCount } }) => {
+        dispatch({
+          type: actions.FINISH_PAGE_FETCHING,
+          payload: { hasMore: pageCount > page, metaDatas },
+        });
       })
       .catch((err) => {
-        // There is nothing here, user probably scrolled like blazing fast
+        dispatch({ type: actions.FINISH_LOADING });
       });
   }, [page]);
 
@@ -66,49 +69,27 @@ function SearchFilter() {
   }, []);
 
   const handleSubjectChange = (e) => {
-    const value = e.target.value;
-    if (value && query) {
-      router.push(
-        { pathname: "/", query: { search: query, subject: value } },
-        null,
-        { shallow: true }
-      );
-    } else if (value) {
-      router.push({ pathname: "/", query: { subject: value } }, null, {
-        shallow: true,
-      });
-    } else if (query) {
-      router.push({ pathname: "/", query: { search: query } }, null, {
-        shallow: true,
-      });
-    } else {
-      router.push({ pathname: "/" }, null, { shallow: true });
-    }
+    const subject = e.target.value;
+    router.push(
+      { pathname: "/", query: normalizeQuery({ search, subject }) },
+      null,
+      { shallow: true }
+    );
   };
 
   const handleSearchChanged = (e) => {
     const search = e.target.value;
-    if (search && subject) {
-      router.push({ pathname: "/", query: { search, subject } }, null, {
-        shallow: true,
-      });
-    } else if (search) {
-      router.push({ pathname: "/", query: { search } }, null, {
-        shallow: true,
-      });
-    } else if (subject) {
-      router.push({ pathname: "/", query: { subject } }, null, {
-        shallow: true,
-      });
-    } else {
-      router.push({ pathname: "/" }, null, { shallow: true });
-    }
+    router.push(
+      { pathname: "/", query: normalizeQuery({ search, subject }) },
+      null,
+      { shallow: true }
+    );
   };
 
   return (
     <div className={styles.filter}>
       <input
-        value={query}
+        value={search}
         className={styles.search}
         onChange={handleSearchChanged}
         type="text"
@@ -116,9 +97,9 @@ function SearchFilter() {
       />
       <select value={subject} onChange={handleSubjectChange}>
         <option value="">Válassz tantárgyat</option>
-        {Object.entries(subjects).map(([k, v], i) => {
+        {Object.entries(subjects).map(([k, v]) => {
           return (
-            <option key={i} value={k}>
+            <option key={k} value={k}>
               {v}
             </option>
           );

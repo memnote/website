@@ -6,7 +6,7 @@ const pageSize = 12;
 
 function extractParams(req) {
   return {
-    query: req.query.search === "undefined" ? null : req.query.search,
+    search: req.query.search === "undefined" ? null : req.query.search,
     subject: req.query.subject === "undefined" ? null : req.query.subject,
     page: req.query.page === "undefined" ? null : req.query.page,
   };
@@ -24,41 +24,50 @@ function sortDescendent(a, b) {
 }
 
 export const getMetaData = async (
-  { query, subject, page } = { query: null, subject: null, page: null }
+  { search, subject, page } = { search: null, subject: null, page: null }
 ) => {
   let response = [];
 
-  if (cache.hasCache()) {
-    response = cache.getAll();
-  } else {
-    const rawMeta = await axios.get(`${baseURL}/metadata/`, {
-      headers: {
-        Authorization: `token ${process.env.TOKEN}`,
-      },
+  for (let i = 0; i < 100; i++) {
+    response.push({
+      title: `Teszt cím ${i}`,
+      subject: "szoftech",
+      description: "Teszt leírás.",
+      date: "2020-01-12",
     });
-
-    const metaDataPromises = rawMeta.data.map(
-      (data) =>
-        new Promise(async (resolve, reject) => {
-          const json = await axios.get(`${scrapeURL}/metadata/${data.name}`);
-          const parsedJSON = json.data;
-          resolve({
-            ...parsedJSON,
-            fileName: data.name.replace("-metadata.json", ""),
-          });
-        })
-    );
-
-    response = await Promise.all(metaDataPromises);
-    cache.save(response);
   }
 
-  response.sort(sortDescendent);
+  // if (cache.hasCache()) {
+  //   response = cache.getAll();
+  // } else {
+  //   const rawMeta = await axios.get(`${baseURL}/metadata/`, {
+  //     headers: {
+  //       Authorization: `token ${process.env.TOKEN}`,
+  //     },
+  //   });
+
+  //   const metaDataPromises = rawMeta.data.map(
+  //     (data) =>
+  //       new Promise(async (resolve, reject) => {
+  //         const json = await axios.get(`${scrapeURL}/metadata/${data.name}`);
+  //         const parsedJSON = json.data;
+  //         resolve({
+  //           ...parsedJSON,
+  //           fileName: data.name.replace("-metadata.json", ""),
+  //         });
+  //       })
+  //   );
+
+  //   response = await Promise.all(metaDataPromises);
+  //   cache.save(response);
+  // }
+
+  // response.sort(sortDescendent);
 
   if (subject) response = response.filter((post) => post.subject === subject);
-  if (query)
+  if (search)
     response = response.filter((post) =>
-      post.title.toLowerCase().includes(query.toLowerCase())
+      post.title.toLowerCase().includes(search.toLowerCase())
     );
 
   let pageCount = Math.max(1, Math.ceil(response.length / pageSize));
@@ -90,9 +99,9 @@ export const getMetaData = async (
 };
 
 export default async (req, res) => {
-  const { query, subject, page } = extractParams(req);
+  const { search, subject, page } = extractParams(req);
 
-  const response = await getMetaData({ query, subject, page });
+  const response = await getMetaData({ search, subject, page });
 
   res.statusCode = response.status;
   delete response.status;
