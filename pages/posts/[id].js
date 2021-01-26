@@ -61,7 +61,7 @@ const Post = ({ markdown, metaData, subject, found }) => {
             <div className={styles.metaText}>
               <p>{meta.title}</p>
               <div className={styles.backMeta}>
-                <Link href="/">
+                <Link className={styles.link} href="/">
                   <FontAwesomeIcon
                     className={styles.backIcon}
                     size="3x"
