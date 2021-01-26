@@ -133,7 +133,7 @@ export async function getServerSideProps({ query }) {
   const search = query.search;
   const subject = query.subject;
 
-  const rawMetaData = await getMetaData({ page: 1, query: search, subject });
+  const rawMetaData = await getMetaData({ page: 1, search, subject });
   const subjects = await getSubjects();
   const metaData = rawMetaData.data;
   const hasMorePage = rawMetaData.pageCount > 1;
