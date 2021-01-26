@@ -3,6 +3,11 @@ import Head from "next/head";
 function AppHead() {
   return (
     <Head>
+      <link rel="manifest" href="/manifest.json" />
+      <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+      <meta name="apple-mobile-web-app-status-bar" content="white" />
+      <meta name="theme-color" content="white" />
       <meta httpEquiv="content-language" content="hu" />
       <title>Memnote - Jegyzetek üzemmérnök-informatikusoknak</title>
       <meta
