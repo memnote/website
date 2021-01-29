@@ -1,22 +1,21 @@
-import Head from "next/head";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
 import htmlParser from "react-markdown/plugins/html-parser";
 import matter from "gray-matter";
-import styles from "../../styles/Post.module.css";
 import Footer from "../../components/Footer";
 import FourOhFour from "../404";
 import CodeBlock from "../../components/CodeBlock";
+import Loading from "../../components/Loading";
+import Table from "../../components/Table";
+import Meta from "../../components/Meta";
+import styles from "../../styles/Post.module.css";
 import { faCaretSquareLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getNoteMarkdown, getSubjects } from "../../lib/requests";
 import { backgroundUrl } from "../../lib/baseURLs";
-import Table from "../../components/Table";
 import { getMetaData } from "../api/meta";
-import Loading from "../../components/Loading";
 
 const parseHtml = htmlParser({
   isValidNode: (node) =>
@@ -25,9 +24,6 @@ const parseHtml = htmlParser({
 });
 
 const Post = ({ markdown: content, metaData: meta, subject, found }) => {
-  // const [content, setContent] = useState(markdown);
-  // const [meta, setMeta] = useState(metaData);
-
   const router = useRouter();
 
   if (router.isFallback) {
@@ -40,31 +36,12 @@ const Post = ({ markdown: content, metaData: meta, subject, found }) => {
 
   return (
     <div className={styles.container}>
-      <Head>
-        <meta httpEquiv="content-language" content="hu" />
-        <title>{`Memnote - ${meta.title}`}</title>
-        <meta name="title" content={`Memnote - ${meta.title}`} />
-        <meta name="og:title" content={`Memnote - ${meta.title}`} />
-        <meta name="twitter:title" content={`Memnote - ${meta.title}`} />
-        <meta
-          name="description"
-          content={`Üzemmérnök-informatikus jegyzet - ${meta.description}`}
-        />
-        <meta
-          name="og:description"
-          content={`Üzemmérnök-informatikus jegyzet - ${meta.description}`}
-        />
-        <meta
-          name="twitter:description"
-          content={`Üzemmérnök-informatikus jegyzet - ${meta.description}`}
-        />
-        <meta name="og:image" content="/og-image.png" />
-        <meta property="og:image:width" content="200" />
-        <meta property="og:image:height" content="200" />
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:image" content="/og-image.png" />
+      <Meta
+        title={`Memnote - ${meta.title}`}
+        description={`Üzemmérnök-informatikus jegyzet - ${meta.description}`}
+      >
         <meta name="revised" content={`Memnote, ${meta.date}`} />
-      </Head>
+      </Meta>
 
       <div
         style={{

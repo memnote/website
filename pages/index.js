@@ -3,11 +3,11 @@ import Footer from "../components/Footer";
 import NoteCardList from "../components/NoteCardList";
 import SearchFilter from "../components/SearchFilter";
 import ScrollTop from "../components/ScrollTop";
-import AppHead from "../components/AppHead";
 import styles from "../styles/Home.module.css";
 import { getSubjects } from "../lib/requests";
 import { getMetaData } from "./api/meta";
 import { handlers } from "../lib/state/actions";
+import Meta from "../components/Meta";
 
 export const ApplicationContext = React.createContext({});
 
@@ -94,7 +94,7 @@ export default function Home({ metaData, subjects, hasMorePage }) {
       }}
     >
       <div className={styles.container}>
-        <AppHead />
+        <Meta />
 
         <main>
           <div className={styles.hero}>
