@@ -81,7 +81,18 @@ const Post = ({ markdown: content, metaData: meta, subject, found }) => {
           {content}
         </ReactMarkdown>
       </div>
-      <Footer />
+
+      <Footer>
+        <div>
+          Hibát találtál? Esetleg szeretnéd kiegészíteni a jegyzetet?{" "}
+          <a
+            target="blank"
+            href={`https://github.com/memnote/notes/edit/master/posts/${router.query.id}.md`}
+          >
+            Szerkesztés Githubon
+          </a>
+        </div>
+      </Footer>
     </div>
   );
 };

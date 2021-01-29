@@ -122,7 +122,14 @@ export default function Home({ metaData, subjects, hasMorePage }) {
             )}
           </div>
         </main>
-        <Footer />
+        <Footer>
+          <div>
+            Szeretnél jegyzetet feltölteni? Esetleg hibát találtál?{" "}
+            <a target="blank" href="https://github.com/memnote/notes">
+              Irány a data repo
+            </a>
+          </div>
+        </Footer>
         <ScrollTop />
       </div>
     </ApplicationContext.Provider>
