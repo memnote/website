@@ -1,6 +1,7 @@
 import Head from "next/head";
 
 function Meta({
+  children,
   title = "Memnote - Jegyzetek üzemmérnök-informatikusoknak",
   description = "Bárki által szerkeszthető, bővíthető, hasznos jegyzetek és segédletek üzemmérnök-informatikusoknak.",
   keywords = "memnote, üzemmérnök, jegyzet, üzemmérnök jegyzet, üzemmérnök informatikus, üzemmérnök informatikus jegyzetek",
@@ -34,6 +35,7 @@ function Meta({
 
       <link rel="shortcut icon" href="/favicon.ico" />
       <link rel="icon" href="/favicon.ico" />
+      {children}
     </Head>
   );
 }
