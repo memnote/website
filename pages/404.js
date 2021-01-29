@@ -2,7 +2,7 @@ import Link from "next/link";
 import Head from "next/head";
 import styles from "../styles/404.module.css";
 
-export default function FourOhFour() {
+export default function FourOhFour({ text = "Az oldal nem található" }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -10,7 +10,7 @@ export default function FourOhFour() {
       </Head>
 
       <h1>Memnote</h1>
-      <h2>404 - Az oldal nem található</h2>
+      <h2>404 - {text}</h2>
       <Link href="/">Vissza a főoldalra</Link>
     </div>
   );

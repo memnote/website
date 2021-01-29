@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
@@ -14,6 +15,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getNoteMarkdown, getSubjects } from "../../lib/requests";
 import { backgroundUrl } from "../../lib/baseURLs";
 import Table from "../../components/Table";
+import { getMetaData } from "../api/meta";
+import Loading from "../../components/Loading";
 
 const parseHtml = htmlParser({
   isValidNode: (node) =>
@@ -21,11 +24,21 @@ const parseHtml = htmlParser({
     (node.name === "u" || node.name === "sub" || node.name === "sup"),
 });
 
-const Post = ({ markdown, metaData, subject, found }) => {
-  const [content, setContent] = useState(markdown);
-  const [meta, setMeta] = useState(metaData && JSON.parse(metaData));
+const Post = ({ markdown: content, metaData: meta, subject, found }) => {
+  // const [content, setContent] = useState(markdown);
+  // const [meta, setMeta] = useState(metaData);
 
-  return found ? (
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <Loading />;
+  }
+
+  if (!found) {
+    return <FourOhFour text="Nem találtunk ilyen jegyzetet :(" />;
+  }
+
+  return (
     <div className={styles.container}>
       <Head>
         <meta httpEquiv="content-language" content="hu" />
@@ -93,35 +106,45 @@ const Post = ({ markdown, metaData, subject, found }) => {
       </div>
       <Footer />
     </div>
-  ) : (
-    <FourOhFour />
   );
 };
 
-export async function getServerSideProps({ params, res }) {
+export async function getStaticProps({ params }) {
   const id = params.id;
   let markdown, metaData, subjects, subject;
   try {
     markdown = await getNoteMarkdown(id);
     subjects = await getSubjects();
-    metaData = matter(markdown).data;
+    const meta = matter(markdown).data;
+    metaData = { ...meta, date: meta.date.toISOString() };
     subject = subjects[metaData.subject];
 
     return {
       props: {
         markdown,
-        metaData: JSON.stringify(metaData),
+        metaData,
         subject,
         found: true,
       },
+      revalidate: 60 * 60 * 24,
     };
   } catch (err) {
     return {
       props: {
         found: false,
       },
+      revalidate: 60 * 30,
     };
   }
+}
+
+export async function getStaticPaths() {
+  const metaData = await getMetaData();
+  const paths = metaData.data.splice(0, 2).map((meta) => ({
+    params: { id: meta.fileName },
+  }));
+
+  return { paths, fallback: true };
 }
 
 export default Post;
