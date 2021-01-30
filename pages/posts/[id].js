@@ -106,6 +106,7 @@ export async function getStaticProps({ params }) {
     const meta = matter(markdown).data;
     metaData = { ...meta, date: meta.date.toISOString() };
     subject = subjects[metaData.subject];
+    markdown = markdown.replace(/^---(\n.*){5}---$/m, "");
 
     return {
       props: {
@@ -128,7 +129,7 @@ export async function getStaticProps({ params }) {
 
 export async function getStaticPaths() {
   const metaData = await getMetaData();
-  const paths = metaData.data.splice(0, 2).map((meta) => ({
+  const paths = metaData.data.map((meta) => ({
     params: { id: meta.fileName },
   }));
 

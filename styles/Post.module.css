@@ -72,9 +72,9 @@
   color: #0070f3;
 }
 
-.mdContainer > h2:nth-child(2) {
+/* .mdContainer > h2:nth-child(2) {
   display: none;
-}
+} */
 
 .tableContainer {
   max-width: 100%;
