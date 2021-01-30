@@ -3,7 +3,6 @@ import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
 import htmlParser from "react-markdown/plugins/html-parser";
-import matter from "gray-matter";
 import Footer from "../../components/Footer";
 import FourOhFour from "../404";
 import CodeBlock from "../../components/CodeBlock";
@@ -99,14 +98,10 @@ const Post = ({ markdown: content, metaData: meta, subject, found }) => {
 
 export async function getStaticProps({ params }) {
   const id = params.id;
-  let markdown, metaData, subjects, subject;
   try {
-    markdown = await getNoteMarkdown(id);
-    subjects = await getSubjects();
-    const meta = matter(markdown).data;
-    metaData = { ...meta, date: meta.date.toISOString() };
-    subject = subjects[metaData.subject];
-    markdown = markdown.replace(/^---(\n.*){5}---$/m, "");
+    const { markdown, metaData } = await getNoteMarkdown(id);
+    const subjects = await getSubjects();
+    const subject = subjects[metaData.subject];
 
     return {
       props: {
