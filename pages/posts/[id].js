@@ -10,11 +10,11 @@ import Loading from "../../components/Loading";
 import Table from "../../components/Table";
 import Meta from "../../components/Meta";
 import styles from "../../styles/Post.module.css";
-import { faCaretSquareLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getNoteMarkdown, getSubjects } from "../../lib/requests";
 import { backgroundUrl } from "../../lib/baseURLs";
 import { getMetaData } from "../api/meta";
+import Button from "@material-ui/core/Button";
+import ArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 
 const parseHtml = htmlParser({
   isValidNode: (node) =>
@@ -52,25 +52,27 @@ const Post = ({ markdown: content, metaData: meta, subject, found }) => {
           <div className={styles.metaCenter}>
             <div className={styles.metaText}>
               <p>{meta.title}</p>
-              <div className={styles.backMeta}>
-                <Link className={styles.link} href="/">
-                  <FontAwesomeIcon
-                    className={styles.backIcon}
-                    size="3x"
-                    icon={faCaretSquareLeft}
-                  />
-                </Link>
-                <div>
-                  <p>{subject}</p>
-                  <p>{new Date(meta.date).toLocaleDateString()}</p>
-                </div>
-              </div>
+              <Link href="/">
+                <Button
+                  variant="contained"
+                  startIcon={<ArrowLeft />}
+                  style={{ background: "#3d3d3d", color: "white" }}
+                >
+                  Vissza
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
       </div>
 
       <div className={styles.mdContainer}>
+        <div className={styles.backMeta}>
+          <div>
+            <p>{subject}</p>
+            <p>{new Date(meta.date).toLocaleDateString()}</p>
+          </div>
+        </div>
         <ReactMarkdown
           astPlugins={[parseHtml]}
           allowDangerousHtml

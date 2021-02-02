@@ -1,0 +1,53 @@
+.container {
+  display: flex;
+  margin-top: 115px;
+  margin-bottom: 115px;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+}
+
+.rightChild {
+  height: 160px;
+}
+
+@media (max-width: 1185px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .container > div:first-child {
+    display: none;
+  }
+
+  .rightChild {
+    height: auto;
+  }
+}
+
+@media (max-width: 800px) {
+  .container {
+    margin-bottom: 50px;
+    margin-top: 80px;
+  }
+
+  .rightChild > h1 {
+    font-size: 22px;
+  }
+
+  /* .rightChild {
+    height: 125px;
+  } */
+}
+
+@media (max-width: 380px) {
+  .rightChild > h1 {
+    font-size: 20px;
+  }
+
+  .rightChild > p {
+    font-size: 14px;
+  }
+}
