@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { faCaretSquareUp } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ArrowUp from "@material-ui/icons/KeyboardArrowUp";
+import IconButton from "@material-ui/core/IconButton";
 
 function ScrollTop() {
   const [visible, setVisible] = useState(false);
@@ -20,7 +20,7 @@ function ScrollTop() {
 
   return (
     <>
-      <div
+      <IconButton
         style={{
           opacity: visible ? "1" : "0",
           position: "fixed",
@@ -29,14 +29,20 @@ function ScrollTop() {
           cursor: visible ? "pointer" : "auto",
           transition: "all 0.3s",
           userSelect: "none",
+          WebkitTouchCallout: "none",
         }}
         onClick={scrollTop}
       >
-        <FontAwesomeIcon
-          style={{ width: "50px", height: "50px", userSelect: "none" }}
-          icon={faCaretSquareUp}
+        <ArrowUp
+          style={{
+            width: "50px",
+            height: "50px",
+            userSelect: "none",
+            color: "black",
+            WebkitTouchCallout: "none",
+          }}
         />
-      </div>
+      </IconButton>
     </>
   );
 }

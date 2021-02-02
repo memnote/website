@@ -1,13 +1,12 @@
 import React, { useRef, useCallback, useReducer, useEffect } from "react";
 import Footer from "../components/Footer";
 import NoteCardList from "../components/NoteCardList";
-import SearchFilter from "../components/SearchFilter";
-import ScrollTop from "../components/ScrollTop";
-import styles from "../styles/Home.module.css";
 import { getSubjects } from "../lib/requests";
 import { getMetaData } from "./api/meta";
 import { handlers } from "../lib/state/actions";
 import Meta from "../components/Meta";
+import styles from "../styles/Home.module.css";
+import Hero from "../components/Hero";
 
 export const ApplicationContext = React.createContext({});
 
@@ -54,7 +53,7 @@ export default function Home({ metaData, subjects, hasMorePage }) {
     loading: false,
   });
 
-  const { metaDatas, hasMore, loading, page } = state;
+  const { metaDatas, hasMore, loading, page, top5 } = state;
 
   useEffect(() => {
     dispatch({
@@ -93,45 +92,32 @@ export default function Home({ metaData, subjects, hasMorePage }) {
         subjects: state.subjects,
       }}
     >
+      <Meta />
+
       <div className={styles.container}>
-        <Meta />
+        <Hero top5={top5} />
+        <div>
+          <NoteCardList refChange={lastNoteRef} />
 
-        <main>
-          <div className={styles.hero}>
-            <div className={styles.heroMain}>
-              <h1 className={styles.title}>Memnote</h1>
-              <p className={styles.description}>
-                Hasznos jegyzetek és segédletek üzemmérnök-informatikusoknak.
-              </p>
-
-              <SearchFilter />
+          {metaDatas.length <= 0 && !loading && (
+            <div>
+              <h2>Nem található a keresésnek megfelelő jegyzet!</h2>
             </div>
-          </div>
+          )}
 
-          <div className={styles.main}>
-            <NoteCardList refChange={lastNoteRef} />
-
-            {metaDatas.length <= 0 && !loading && (
-              <div>
-                <h2>Nem található a keresésnek megfelelő jegyzet!</h2>
-              </div>
-            )}
-
-            {loading && (
-              <img className={styles.loadingSpinner} src="./loading.gif" />
-            )}
-          </div>
-        </main>
-        <Footer>
-          <div>
-            Szeretnél jegyzetet feltölteni? Esetleg hibát találtál?{" "}
-            <a target="blank" href="https://github.com/memnote/notes">
-              Irány a data repo
-            </a>
-          </div>
-        </Footer>
-        <ScrollTop />
+          {loading && (
+            <img className={styles.loadingSpinner} src="./loading.gif" />
+          )}
+        </div>
       </div>
+      <Footer>
+        <div>
+          Szeretnél jegyzetet feltölteni? Esetleg hibát találtál?{" "}
+          <a target="blank" href="https://github.com/memnote/notes">
+            Irány a data repo
+          </a>
+        </div>
+      </Footer>
     </ApplicationContext.Provider>
   );
 }

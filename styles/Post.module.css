@@ -1,5 +1,6 @@
 .container {
   margin: auto;
+  margin-top: 60px;
 }
 
 .metaContainer {
@@ -15,17 +16,16 @@
   position: absolute;
   height: 100%;
   width: 100%;
-  background: rgba(0, 0, 0, 0.1);
+  /* background: rgba(0, 0, 0, 0.1); */
   z-index: 1;
   text-shadow: 2px 2px 10px #000;
 }
 
 .metaCenter {
-  max-width: 1080px;
+  max-width: 1150px;
   margin: auto;
 }
 
-.backMeta,
 .metaText > p {
   margin: 0;
   color: white;
@@ -42,29 +42,33 @@
   font-weight: bold;
   margin-top: auto;
   line-height: 1.2;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .metaText {
   position: absolute;
-  bottom: 20px;
+  bottom: 30px;
 }
 
-.backMeta > div > p {
+.backMeta p {
   margin: 0;
-  margin-left: 10px;
+}
+
+.backMeta {
+  margin-top: 10px;
 }
 
 .backIcon {
   cursor: pointer;
   filter: drop-shadow(1px 1px 4px black);
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
+  color: white;
 }
 
 .mdContainer {
   min-height: calc(100vh - 500px);
-  max-width: 1080px;
+  max-width: 1150px;
   margin: auto;
 }
 
@@ -95,22 +99,17 @@
   }
 }
 
-@media (max-width: 1100px) {
-  .metaText > p {
-    margin: 0;
-    margin-left: 20px;
-  }
-
-  .backMeta {
-    margin: 0;
-    margin-left: 20px;
-  }
-}
-
-@media (max-width: 1120px) {
+@media (max-width: 1190px) {
   .mdContainer {
     margin-left: 20px;
     margin-right: 20px;
     min-height: calc(100vh - 400px);
+  }
+}
+
+@media (max-width: 1170px) {
+  .metaText {
+    margin: 0;
+    margin-left: 20px;
   }
 }
