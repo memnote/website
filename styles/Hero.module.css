@@ -36,10 +36,6 @@
   .rightChild > h1 {
     font-size: 22px;
   }
-
-  /* .rightChild {
-    height: 125px;
-  } */
 }
 
 @media (max-width: 380px) {

@@ -45,6 +45,8 @@ const Post = ({ markdown: content, metaData: meta, subject, found }) => {
       <div
         style={{
           backgroundImage: `url(${backgroundUrl}/${meta.subject}.svg)`,
+          background:
+            "radial-gradient(ellipse, rgba(181,60,255,1) 20%, rgba(111,24,198,1) 100%)",
         }}
         className={styles.metaContainer}
       >
@@ -56,7 +58,12 @@ const Post = ({ markdown: content, metaData: meta, subject, found }) => {
                 <Button
                   variant="contained"
                   startIcon={<ArrowLeft />}
-                  style={{ background: "#3d3d3d", color: "white" }}
+                  style={{
+                    background: "white",
+                    color: "black",
+                    fontWeight: "bold",
+                    boxShadow: "0px 0px 8px black !important",
+                  }}
                 >
                   Vissza
                 </Button>

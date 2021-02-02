@@ -16,7 +16,7 @@
   position: absolute;
   height: 100%;
   width: 100%;
-  background: rgba(0, 0, 0, 0.1);
+  /* background: rgba(0, 0, 0, 0.1); */
   z-index: 1;
   text-shadow: 2px 2px 10px #000;
 }
@@ -42,12 +42,12 @@
   font-weight: bold;
   margin-top: auto;
   line-height: 1.2;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .metaText {
   position: absolute;
-  bottom: 20px;
+  bottom: 30px;
 }
 
 .backMeta p {

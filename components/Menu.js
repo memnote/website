@@ -29,12 +29,14 @@ const Menu = () => {
             <Link href="/">Memnote</Link>
           </Typography>
 
-          <div style={{ display: "flex", gap: 15 }}>
-            <Button>Hozzájárulás</Button>
-            <Button color="inherit" style={{ background: "black" }}>
-              Szerkesztő
-            </Button>
-          </div>
+          <Button
+            href="https://github.com/memnote/notes"
+            target="blank"
+            color="inherit"
+            style={{ background: "black" }}
+          >
+            Hozzájárulás
+          </Button>
         </Toolbar>
       </div>
     </AppBar>
