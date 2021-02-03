@@ -1,5 +1,4 @@
 import React from "react";
-import "react-awesome-slider/dist/styles.css";
 import styles from "../styles/Hero.module.css";
 import SearchFilter from "./SearchFilter";
 
