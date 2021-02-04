@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
 import htmlParser from "react-markdown/plugins/html-parser";
@@ -12,18 +11,10 @@ import Meta from "../../components/Meta";
 import styles from "../../styles/Post.module.css";
 import { getNoteMarkdown, getSubjects } from "../../lib/requests";
 import { getMetaData } from "../api/meta";
-import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import ArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
-
-const useStyles = makeStyles(() => ({
-  button: {
-    background: "white",
-    color: "black",
-    fontWeight: "bold",
-    boxShadow: "0px 0px 8px black !important",
-  },
-}));
+import useHistoryContext from "../../hooks/useHistoryContext";
+import { actions } from "../../lib/state/history/actions";
 
 const parseHtml = htmlParser({
   isValidNode: (node) =>
@@ -33,7 +24,7 @@ const parseHtml = htmlParser({
 
 const Post = ({ markdown: content, metaData: meta, subject, found }) => {
   const router = useRouter();
-  const classes = useStyles();
+  const { dispatch } = useHistoryContext();
 
   if (router.isFallback) {
     return <Loading />;
@@ -56,15 +47,19 @@ const Post = ({ markdown: content, metaData: meta, subject, found }) => {
         <div className={styles.metaCenter}>
           <div className={styles.metaText}>
             <p>{meta.title}</p>
-            <Link href="/">
-              <Button
-                variant="contained"
-                startIcon={<ArrowLeft />}
-                className={classes.button}
-              >
-                Vissza
-              </Button>
-            </Link>
+            <Button
+              variant="contained"
+              startIcon={<ArrowLeft />}
+              style={{
+                background: "white",
+                color: "black",
+                fontWeight: "bold",
+                boxShadow: "0px 0px 8px black !important",
+              }}
+              onClick={() => dispatch({ type: actions.GO_BACK })}
+            >
+              Vissza
+            </Button>
           </div>
         </div>
       </div>

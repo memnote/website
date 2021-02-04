@@ -7,8 +7,10 @@ import Hero from "../components/Hero";
 import useLazyLoading from "../hooks/useLazyLoading";
 import { getSubjects } from "../lib/requests";
 import { actions } from "../lib/state/search/actions";
+import { actions as historyActions } from "../lib/state/history/actions";
 import searchReducer from "../lib/state/search/reducer";
 import { getMetaData } from "./api/meta";
+import useHistoryContext from "../hooks/useHistoryContext";
 
 export const SearchContext = React.createContext({});
 
@@ -22,8 +24,8 @@ export default function Home({ metaData, subjects, hasMorePage }) {
   });
 
   const { metaDatas, hasMore, page, loading } = state;
-
   const lastNoteRef = useLazyLoading(hasMore, page, dispatch);
+  const { dispatch: dispatchHistory } = useHistoryContext();
 
   useEffect(() => {
     dispatch({
@@ -34,6 +36,7 @@ export default function Home({ metaData, subjects, hasMorePage }) {
         hasMore: hasMorePage,
       },
     });
+    dispatchHistory({ type: historyActions.CLEAR });
   }, []);
 
   return (
