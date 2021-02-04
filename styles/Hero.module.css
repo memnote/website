@@ -4,6 +4,15 @@
   margin-bottom: 115px;
 }
 
+.container > div:first-child {
+  flex: 3;
+}
+
+.container > div:nth-child(2) {
+  flex: 4;
+  padding: 20px;
+}
+
 .right {
   display: flex;
   flex-direction: column;

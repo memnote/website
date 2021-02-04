@@ -1,8 +1,28 @@
 import React, { useState, useEffect, useCallback } from "react";
 import ArrowUp from "@material-ui/icons/KeyboardArrowUp";
 import IconButton from "@material-ui/core/IconButton";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(() => ({
+  button: {
+    position: "fixed",
+    bottom: "30px",
+    right: "30px",
+    transition: "all 0.3s",
+    userSelect: "none",
+    WebkitTouchCallout: "none",
+  },
+  arrow: {
+    width: "50px",
+    height: "50px",
+    userSelect: "none",
+    color: "black",
+    WebkitTouchCallout: "none",
+  },
+}));
 
 function ScrollTop() {
+  const classes = useStyles();
   const [visible, setVisible] = useState(false);
 
   const scrollTop = () => {
@@ -21,27 +41,14 @@ function ScrollTop() {
   return (
     <>
       <IconButton
+        className={classes.button}
         style={{
           opacity: visible ? "1" : "0",
-          position: "fixed",
-          bottom: "30px",
-          right: "30px",
           cursor: visible ? "pointer" : "auto",
-          transition: "all 0.3s",
-          userSelect: "none",
-          WebkitTouchCallout: "none",
         }}
         onClick={scrollTop}
       >
-        <ArrowUp
-          style={{
-            width: "50px",
-            height: "50px",
-            userSelect: "none",
-            color: "black",
-            WebkitTouchCallout: "none",
-          }}
-        />
+        <ArrowUp className={classes.arrow} />
       </IconButton>
     </>
   );

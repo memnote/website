@@ -5,15 +5,6 @@
   min-height: calc(100vh - 300px);
 }
 
-.heroContainer {
-  margin-top: 140px;
-  margin-bottom: 120px;
-}
-
-.heroSlogen {
-  font-size: 22px;
-}
-
 .query {
   min-width: 100%;
 }
@@ -37,16 +28,15 @@
 
 .footer > div {
   max-width: 90%;
+  display: flex;
+  flex-direction: column;
 }
 
-.footer img {
-  margin-left: 0.5rem;
+.footer p {
+  margin: 0;
 }
 
 .footer a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   color: #0070f3;
 }
 
@@ -68,16 +58,5 @@
 @media (max-width: 800px) {
   .container {
     max-width: 400px;
-  }
-}
-
-@media (max-width: 430px) {
-  .heroContainer {
-    margin-top: 120px;
-    margin-bottom: 90px;
-  }
-
-  .heroSlogen {
-    font-size: 18px;
   }
 }

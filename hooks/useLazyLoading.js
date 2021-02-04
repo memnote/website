@@ -2,7 +2,7 @@ import axios from "axios";
 import { useRef, useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
 import { normalizeQuery } from "../lib/utils";
-import { actions } from "../lib/state/actions";
+import { actions } from "../lib/state/search/actions";
 
 const useLazyLoading = (hasMore, page, dispatch) => {
   const router = useRouter();

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { actions } from "../lib/state/actions";
+import { actions } from "../lib/state/search/actions";
 import { normalizeQuery } from "../lib/utils";
 
 /**

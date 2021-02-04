@@ -34,6 +34,7 @@ const useStyles = makeStyles(() => ({
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
     backgroundSize: "contain",
+    height: 190,
   },
 }));
 
@@ -47,7 +48,6 @@ function NoteCard({ note, refChange, longSubject }) {
           <CardMedia
             image={`static/${note.subject}.svg`}
             title={note.title}
-            style={{ height: 190 }}
             className={classes.media}
           />
 

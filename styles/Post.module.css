@@ -10,15 +10,12 @@
   background-position: center;
   position: relative;
   width: 100%;
-}
-
-.metaOverlay {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  /* background: rgba(0, 0, 0, 0.1); */
-  z-index: 1;
   text-shadow: 2px 2px 10px #000;
+  background: radial-gradient(
+    ellipse,
+    rgba(181, 60, 255, 1) 20%,
+    rgba(111, 24, 198, 1) 100%
+  );
 }
 
 .metaCenter {

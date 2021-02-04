@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
-import { ApplicationContext } from "../pages";
+import React from "react";
 import Grid from "@material-ui/core/Grid";
 import NoteCard from "./NoteCard";
+import useSearchContext from "../hooks/useSearchContext";
 
 function NoteCardList({ refChange }) {
-  const { metaDatas, subjects } = useContext(ApplicationContext);
+  const { metaDatas, subjects } = useSearchContext();
 
   return (
     <Grid container justify="flex-start" spacing={4}>

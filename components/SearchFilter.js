@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useRouter } from "next/router";
 import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -6,15 +7,15 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import SearchIcon from "@material-ui/icons/Search";
-import { ApplicationContext } from "../pages";
-import { normalizeQuery } from "../lib/utils";
-import { useRouter } from "next/router";
-import styles from "../styles/Home.module.css";
 import useQuerySearch from "../hooks/useQuerySearch";
+import useSearchContext from "../hooks/useSearchContext";
+import { normalizeQuery } from "../lib/utils";
+import styles from "../styles/Home.module.css";
 
 function SearchFilter() {
   const router = useRouter();
-  const { subjects, dispatch, page } = useContext(ApplicationContext);
+
+  const { subjects, dispatch, page } = useSearchContext();
   const { search, subject } = useQuerySearch(dispatch, page, true);
 
   const push = (search, subject) => {

@@ -11,10 +11,19 @@ import Table from "../../components/Table";
 import Meta from "../../components/Meta";
 import styles from "../../styles/Post.module.css";
 import { getNoteMarkdown, getSubjects } from "../../lib/requests";
-import { backgroundUrl } from "../../lib/baseURLs";
 import { getMetaData } from "../api/meta";
+import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import ArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+
+const useStyles = makeStyles(() => ({
+  button: {
+    background: "white",
+    color: "black",
+    fontWeight: "bold",
+    boxShadow: "0px 0px 8px black !important",
+  },
+}));
 
 const parseHtml = htmlParser({
   isValidNode: (node) =>
@@ -24,6 +33,7 @@ const parseHtml = htmlParser({
 
 const Post = ({ markdown: content, metaData: meta, subject, found }) => {
   const router = useRouter();
+  const classes = useStyles();
 
   if (router.isFallback) {
     return <Loading />;
@@ -42,33 +52,19 @@ const Post = ({ markdown: content, metaData: meta, subject, found }) => {
         <meta name="revised" content={`Memnote, ${meta.date}`} />
       </Meta>
 
-      <div
-        style={{
-          backgroundImage: `url(${backgroundUrl}/${meta.subject}.svg)`,
-          background:
-            "radial-gradient(ellipse, rgba(181,60,255,1) 20%, rgba(111,24,198,1) 100%)",
-        }}
-        className={styles.metaContainer}
-      >
-        <div className={styles.metaOverlay}>
-          <div className={styles.metaCenter}>
-            <div className={styles.metaText}>
-              <p>{meta.title}</p>
-              <Link href="/">
-                <Button
-                  variant="contained"
-                  startIcon={<ArrowLeft />}
-                  style={{
-                    background: "white",
-                    color: "black",
-                    fontWeight: "bold",
-                    boxShadow: "0px 0px 8px black !important",
-                  }}
-                >
-                  Vissza
-                </Button>
-              </Link>
-            </div>
+      <div className={styles.metaContainer}>
+        <div className={styles.metaCenter}>
+          <div className={styles.metaText}>
+            <p>{meta.title}</p>
+            <Link href="/">
+              <Button
+                variant="contained"
+                startIcon={<ArrowLeft />}
+                className={classes.button}
+              >
+                Vissza
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
@@ -90,17 +86,11 @@ const Post = ({ markdown: content, metaData: meta, subject, found }) => {
         </ReactMarkdown>
       </div>
 
-      <Footer>
-        <div>
-          Hibát találtál? Esetleg szeretnéd kiegészíteni a jegyzetet?{" "}
-          <a
-            target="blank"
-            href={`https://github.com/memnote/notes/edit/master/posts/${router.query.id}.md`}
-          >
-            Szerkesztés Githubon
-          </a>
-        </div>
-      </Footer>
+      <Footer
+        text="Hibát találtál? Esetleg szeretnéd kiegészíteni a jegyzetet?"
+        linkText="Szerkesztés Githubon"
+        link={`https://github.com/memnote/notes/edit/master/posts/${router.query.id}.md`}
+      />
     </div>
   );
 };

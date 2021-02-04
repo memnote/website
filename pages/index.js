@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useEffect, useReducer } from "react";
 import Footer from "../components/Footer";
 import NoteCardList from "../components/NoteCardList";
 import Meta from "../components/Meta";
@@ -6,36 +6,14 @@ import styles from "../styles/Home.module.css";
 import Hero from "../components/Hero";
 import useLazyLoading from "../hooks/useLazyLoading";
 import { getSubjects } from "../lib/requests";
-import { handlers, actions } from "../lib/state/actions";
+import { actions } from "../lib/state/search/actions";
+import searchReducer from "../lib/state/search/reducer";
 import { getMetaData } from "./api/meta";
 
-export const ApplicationContext = React.createContext({});
-
-const reducer = (state, { type, payload }) => {
-  switch (type) {
-    case actions.CLEAR_METADATA:
-      return handlers.clearMetada(state);
-    case actions.INCREMENT_PAGE:
-      return handlers.incrementPage(state);
-    case actions.DECREMENT_PAGE:
-      return handlers.decrementPage(state);
-    case actions.START:
-      return handlers.start(state, payload);
-    case actions.FINISH_QUERY_FETCHING:
-      return handlers.finishQueryFetching(state, payload);
-    case actions.FINISH_PAGE_FETCHING:
-      return handlers.finishPageFetching(state, payload);
-    case actions.FINISH_LOADING:
-      return handlers.finishLoading(state);
-    case actions.START_LOADING:
-      return handlers.startLoading(state);
-    default:
-      return { ...state };
-  }
-};
+export const SearchContext = React.createContext({});
 
 export default function Home({ metaData, subjects, hasMorePage }) {
-  const [state, dispatch] = useReducer(reducer, {
+  const [state, dispatch] = useReducer(searchReducer, {
     page: 1,
     subjects: [],
     hasMore: hasMorePage,
@@ -43,7 +21,8 @@ export default function Home({ metaData, subjects, hasMorePage }) {
     loading: false,
   });
 
-  const { metaDatas, hasMore, loading, page } = state;
+  const { metaDatas, hasMore, page, loading } = state;
+
   const lastNoteRef = useLazyLoading(hasMore, page, dispatch);
 
   useEffect(() => {
@@ -58,14 +37,13 @@ export default function Home({ metaData, subjects, hasMorePage }) {
   }, []);
 
   return (
-    <ApplicationContext.Provider
+    <SearchContext.Provider
       value={{
         dispatch,
         metaDatas,
         hasMore,
-        loading,
         page,
-        subjects: state.subjects,
+        subjects,
       }}
     >
       <Meta />
@@ -86,15 +64,13 @@ export default function Home({ metaData, subjects, hasMorePage }) {
           )}
         </div>
       </div>
-      <Footer>
-        <div>
-          Szeretnél jegyzetet feltölteni? Esetleg hibát találtál?{" "}
-          <a target="blank" href="https://github.com/memnote/notes">
-            Irány a data repo
-          </a>
-        </div>
-      </Footer>
-    </ApplicationContext.Provider>
+
+      <Footer
+        text="Szeretnél jegyzetet feltölteni? Esetleg hibát találtál?"
+        linkText="Irány a data repo"
+        link="https://github.com/memnote/notes"
+      />
+    </SearchContext.Provider>
   );
 }
 
