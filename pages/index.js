@@ -1,25 +1,15 @@
-import React, { useRef, useCallback, useReducer, useEffect } from "react";
+import React, { useReducer, useEffect } from "react";
 import Footer from "../components/Footer";
 import NoteCardList from "../components/NoteCardList";
-import { getSubjects } from "../lib/requests";
-import { getMetaData } from "./api/meta";
-import { handlers } from "../lib/state/actions";
 import Meta from "../components/Meta";
 import styles from "../styles/Home.module.css";
 import Hero from "../components/Hero";
+import useLazyLoading from "../hooks/useLazyLoading";
+import { getSubjects } from "../lib/requests";
+import { handlers, actions } from "../lib/state/actions";
+import { getMetaData } from "./api/meta";
 
 export const ApplicationContext = React.createContext({});
-
-export const actions = {
-  INCREMENT_PAGE: "inc-page",
-  DECREMENT_PAGE: "dec-page",
-  START: "start",
-  FINISH_QUERY_FETCHING: "finish-query-fetching",
-  FINISH_PAGE_FETCHING: "finish-page-fetching",
-  FINISH_LOADING: "finish-loading",
-  START_LOADING: "start-loading",
-  CLEAR_METADATA: "clear-metadata",
-};
 
 const reducer = (state, { type, payload }) => {
   switch (type) {
@@ -48,12 +38,13 @@ export default function Home({ metaData, subjects, hasMorePage }) {
   const [state, dispatch] = useReducer(reducer, {
     page: 1,
     subjects: [],
-    hasMore: false,
+    hasMore: hasMorePage,
     metaDatas: [],
     loading: false,
   });
 
-  const { metaDatas, hasMore, loading, page, top5 } = state;
+  const { metaDatas, hasMore, loading, page } = state;
+  const lastNoteRef = useLazyLoading(hasMore, page, dispatch);
 
   useEffect(() => {
     dispatch({
@@ -65,21 +56,6 @@ export default function Home({ metaData, subjects, hasMorePage }) {
       },
     });
   }, []);
-
-  const observer = useRef();
-
-  const lastNoteRef = useCallback(
-    (node) => {
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
-          dispatch({ type: actions.INCREMENT_PAGE });
-        }
-      });
-      if (node) observer.current.observe(node);
-    },
-    [hasMore, hasMorePage]
-  );
 
   return (
     <ApplicationContext.Provider
@@ -95,7 +71,7 @@ export default function Home({ metaData, subjects, hasMorePage }) {
       <Meta />
 
       <div className={styles.container}>
-        <Hero top5={top5} />
+        <Hero />
         <div>
           <NoteCardList refChange={lastNoteRef} />
 

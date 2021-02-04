@@ -1,83 +1,23 @@
-import axios from "axios";
-import { useRouter } from "next/router";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
-import Grid from "@material-ui/core/Grid";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import SearchIcon from "@material-ui/icons/Search";
-import { actions, ApplicationContext } from "../pages";
+import { ApplicationContext } from "../pages";
 import { normalizeQuery } from "../lib/utils";
+import { useRouter } from "next/router";
 import styles from "../styles/Home.module.css";
+import useQuerySearch from "../hooks/useQuerySearch";
 
 function SearchFilter() {
-  const [firstRender, setFirstRender] = useState(true);
-  const { subjects, hasMore, dispatch, page } = useContext(ApplicationContext);
   const router = useRouter();
+  const { subjects, dispatch, page } = useContext(ApplicationContext);
+  const { search, subject } = useQuerySearch(dispatch, page, true);
 
-  const {
-    query: { search = "", subject = "" },
-  } = router;
-
-  useEffect(() => {
-    if (firstRender) return;
-    dispatch({ type: actions.CLEAR_METADATA });
-  }, [subject]);
-
-  useEffect(() => {
-    if (firstRender) return;
-    let cancel;
-    dispatch({ type: actions.START_LOADING });
-    axios
-      .get(`/api/meta`, {
-        params: normalizeQuery({ search, subject, page: 1 }),
-        cancelToken: new axios.CancelToken((c) => (cancel = c)),
-      })
-      .then(({ data: { data: metaDatas, pageCount } }) => {
-        dispatch({
-          type: actions.FINISH_QUERY_FETCHING,
-          payload: { hasMore: pageCount > page, metaDatas },
-        });
-      })
-      .catch((err) => {
-        if (axios.isCancel(err)) return;
-        dispatch({ type: actions.FINISH_LOADING });
-      });
-
-    return () => {
-      dispatch({ type: actions.FINISH_LOADING });
-      cancel();
-    };
-  }, [search, subject]);
-
-  useEffect(() => {
-    if (!hasMore) return;
-    dispatch({ type: actions.START_LOADING });
-    axios
-      .get(`/api/meta`, {
-        params: normalizeQuery({ search, subject, page }),
-        validateStatus: (status) => status < 400,
-      })
-      .then(({ data: { data: metaDatas, pageCount } }) => {
-        dispatch({
-          type: actions.FINISH_PAGE_FETCHING,
-          payload: { hasMore: pageCount > page, metaDatas },
-        });
-      })
-      .catch((err) => {
-        dispatch({ type: actions.FINISH_LOADING });
-      });
-  }, [page]);
-
-  useEffect(() => {
-    setFirstRender(false);
-  }, []);
-
-  const handleSubjectChange = (e) => {
-    const subject = e.target.value;
+  const push = (search, subject) => {
     router.push(
       { pathname: "/", query: normalizeQuery({ search, subject }) },
       null,
@@ -85,13 +25,14 @@ function SearchFilter() {
     );
   };
 
+  const handleSubjectChange = (e) => {
+    const subject = e.target.value;
+    push(search, subject);
+  };
+
   const handleSearchChanged = (e) => {
     const search = e.target.value;
-    router.push(
-      { pathname: "/", query: normalizeQuery({ search, subject }) },
-      null,
-      { shallow: true }
-    );
+    push(search, subject);
   };
 
   return (
