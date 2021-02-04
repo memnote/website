@@ -7,6 +7,7 @@ import FourOhFour from "../404";
 import CodeBlock from "../../components/CodeBlock";
 import Loading from "../../components/Loading";
 import Table from "../../components/Table";
+import LinkRenderer from "../../components/LinkRenderer";
 import Meta from "../../components/Meta";
 import styles from "../../styles/Post.module.css";
 import { getNoteMarkdown, getSubjects } from "../../lib/requests";
@@ -75,7 +76,7 @@ const Post = ({ markdown: content, metaData: meta, subject, found }) => {
           astPlugins={[parseHtml]}
           allowDangerousHtml
           plugins={[gfm]}
-          renderers={{ code: CodeBlock, table: Table }}
+          renderers={{ code: CodeBlock, table: Table, link: LinkRenderer }}
         >
           {content}
         </ReactMarkdown>
