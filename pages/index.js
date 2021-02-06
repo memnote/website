@@ -88,7 +88,7 @@ export async function getServerSideProps({ query }) {
 
   return {
     props: {
-      metaData,
+      metaData: metaData ? metaData : [],
       subjects,
       hasMorePage,
     },

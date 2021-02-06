@@ -1,6 +1,24 @@
 import axios from "axios";
-import { baseURL, scrapeURL } from "../../lib/baseURLs";
 import { cache } from "../../lib/api/cache";
+
+const query = `
+query RepoFiles {
+  repository(owner: "memnote", name: "notes") {
+    object(expression: "HEAD:metadata") {
+      ... on Tree {
+        entries { 
+          name
+          object {
+            ... on Blob {
+              text
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`;
 
 const pageSize = 12;
 
@@ -23,6 +41,22 @@ function sortDescendent(a, b) {
   return 0;
 }
 
+async function getMetasWithGraphQL() {
+  const rawMeta = await axios.post(
+    "https://api.github.com/graphql",
+    {
+      query,
+    },
+    {
+      headers: {
+        Authorization: `token ${process.env.TOKEN}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return rawMeta.data.data.repository.object.entries;
+}
+
 export const getMetaData = async (
   { search, subject, page } = { search: null, subject: null, page: null }
 ) => {
@@ -31,26 +65,18 @@ export const getMetaData = async (
   if (cache.hasCache()) {
     response = cache.getAll();
   } else {
-    const rawMeta = await axios.get(`${baseURL}/metadata/`, {
-      headers: {
-        Authorization: `token ${process.env.TOKEN}`,
-      },
-    });
-
-    const metaDataPromises = rawMeta.data.map(
-      (data) =>
-        new Promise(async (resolve, reject) => {
-          const json = await axios.get(`${scrapeURL}/metadata/${data.name}`);
-          const parsedJSON = json.data;
-          resolve({
-            ...parsedJSON,
-            fileName: data.name.replace("-metadata.json", ""),
-          });
-        })
-    );
-
-    response = await Promise.all(metaDataPromises);
-    cache.save(response);
+    try {
+      const rawMeta = await getMetasWithGraphQL();
+      response = rawMeta.map((meta) => {
+        return {
+          fileName: meta.name.replace("-metadata.json", ""),
+          ...JSON.parse(meta.object.text),
+        };
+      });
+      cache.save(response);
+    } catch (err) {
+      return [];
+    }
   }
 
   response.sort(sortDescendent);
