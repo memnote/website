@@ -2,7 +2,7 @@
   width: 360px;
   box-shadow: none !important;
   font-family: "Poppins", sans-seirf;
-  transition: ease-out 0.5 all;
+  transition: all 0.2s ease-in-out !important;
 }
 
 .card:hover {
