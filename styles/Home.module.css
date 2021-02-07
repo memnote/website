@@ -7,6 +7,24 @@
 
 .query {
   min-width: 100%;
+  padding: 15px;
+  border: none;
+  background-color: rgb(240, 240, 240);
+  outline: none;
+  transition: all ease-in-out 0.2s;
+}
+
+.effect {
+  height: 2px;
+  width: 0;
+  background-color: rgb(51, 98, 255);
+  animation: forwards;
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.query:focus + .effect {
+  animation-name: expand;
 }
 
 .searchContainer {
@@ -58,5 +76,11 @@
 @media (max-width: 800px) {
   .container {
     max-width: 400px;
+  }
+}
+
+@keyframes expand {
+  to {
+    width: 100%;
   }
 }

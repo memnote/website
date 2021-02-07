@@ -2,7 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./Button.module.css";
 
-function Button({ onClick, color, background, text, href, target, style }) {
+function Button({
+  onClick,
+  color,
+  background,
+  text,
+  href,
+  target,
+  style,
+  children,
+}) {
   const click = (e) => {
     if (onClick) onClick();
     if (href) window.open(href, target ? target : "self");
@@ -14,7 +23,7 @@ function Button({ onClick, color, background, text, href, target, style }) {
 
   return (
     <button className={styles.button} onClick={click} style={appliedStyles}>
-      {text}
+      {text ? text : children}
     </button>
   );
 }

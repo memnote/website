@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import ArrowUp from "@material-ui/icons/KeyboardArrowUp";
-import IconButton from "@material-ui/core/IconButton";
+import IconButton from "./ui/IconButton";
 
 function ScrollTop() {
   const [visible, setVisible] = useState(false);
@@ -21,6 +20,8 @@ function ScrollTop() {
   return (
     <>
       <IconButton
+        src="/arrowup.svg"
+        size={50}
         style={{
           opacity: visible ? "1" : "0",
           cursor: visible ? "pointer" : "auto",
@@ -32,17 +33,7 @@ function ScrollTop() {
           WebkitTouchCallout: "none",
         }}
         onClick={scrollTop}
-      >
-        <ArrowUp
-          style={{
-            width: "50px",
-            height: "50px",
-            userSelect: "none",
-            color: "black",
-            WebkitTouchCallout: "none",
-          }}
-        />
-      </IconButton>
+      />
     </>
   );
 }

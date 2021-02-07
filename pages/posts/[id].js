@@ -12,8 +12,7 @@ import Meta from "../../components/Meta";
 import styles from "../../styles/Post.module.css";
 import { getNoteMarkdown, getSubjects } from "../../lib/requests";
 import { getMetaData } from "../api/meta";
-import Button from "@material-ui/core/Button";
-import ArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+import Button from "../../components/ui/Button";
 import useHistoryContext from "../../hooks/useHistoryContext";
 import { actions } from "../../lib/state/history/actions";
 
@@ -49,17 +48,16 @@ const Post = ({ markdown: content, metaData: meta, subject, found }) => {
           <div className={styles.metaText}>
             <p>{meta.title}</p>
             <Button
-              variant="contained"
-              startIcon={<ArrowLeft />}
+              background="white"
+              color="black"
               style={{
-                background: "white",
-                color: "black",
                 fontWeight: "bold",
                 boxShadow: "0px 0px 8px black !important",
+                height: 40,
               }}
               onClick={() => dispatch({ type: actions.GO_BACK })}
             >
-              Vissza
+              <img src="/arrowleft.svg" /> <p>Vissza</p>
             </Button>
           </div>
         </div>

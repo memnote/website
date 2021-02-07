@@ -1,12 +1,5 @@
 import React from "react";
 import { useRouter } from "next/router";
-import TextField from "@material-ui/core/TextField";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import InputLabel from "@material-ui/core/InputLabel";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import SearchIcon from "@material-ui/icons/Search";
 import useQuerySearch from "../hooks/useQuerySearch";
 import useSearchContext from "../hooks/useSearchContext";
 import { normalizeQuery } from "../lib/utils";
@@ -38,41 +31,29 @@ function SearchFilter() {
 
   return (
     <div className={styles.searchContainer}>
-      <FormControl variant="filled" className={styles.query}>
-        <TextField
+      <div>
+        <input
+          className={styles.query}
+          type="text"
           value={search}
           onChange={handleSearchChanged}
-          variant="filled"
-          label="Keresés"
           placeholder="Írj ide a kereséséhez..."
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
         />
-      </FormControl>
+        <div className={styles.effect} />
+      </div>
 
-      <FormControl variant="filled" className={styles.query}>
-        <InputLabel id="select-label">Tantárgy</InputLabel>
-        <Select
-          variant="filled"
-          value={subject}
-          onChange={handleSubjectChange}
-          labelId="select-label"
-          id="select"
-          style={{ textAlign: "left" }}
-        >
-          <MenuItem value="">Nincs</MenuItem>
-          {Object.entries(subjects).map(([k, v]) => (
-            <MenuItem key={k} value={k}>
-              {v}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <select
+        className={styles.query}
+        value={subject}
+        onChange={handleSubjectChange}
+      >
+        <option value="">Válassz tantárgyat</option>
+        {Object.entries(subjects).map(([k, v]) => (
+          <option key={k} value={k}>
+            {v}
+          </option>
+        ))}
+      </select>
     </div>
   );
 }
