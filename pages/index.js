@@ -24,7 +24,7 @@ export default function Home({ metaData, subjects, hasMorePage }) {
   });
 
   const { metaDatas, hasMore, page, loading } = state;
-  const lastNoteRef = useLazyLoading(hasMore, page, dispatch);
+  const lastNoteRef = useLazyLoading(hasMore, page, dispatch, true);
   const { dispatch: dispatchHistory } = useHistoryContext();
 
   useEffect(() => {

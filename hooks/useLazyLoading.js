@@ -1,10 +1,11 @@
 import axios from "axios";
-import { useRef, useCallback, useEffect } from "react";
+import { useRef, useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { normalizeQuery } from "../lib/utils";
 import { actions } from "../lib/state/search/actions";
 
-const useLazyLoading = (hasMore, page, dispatch) => {
+const useLazyLoading = (hasMore, page, dispatch, ssrFirst = false) => {
+  const [firstRender, setFirstRender] = useState(ssrFirst);
   const router = useRouter();
 
   const {
@@ -27,7 +28,7 @@ const useLazyLoading = (hasMore, page, dispatch) => {
   );
 
   useEffect(() => {
-    if (!hasMore) return;
+    if (!hasMore || firstRender) return;
     dispatch({ type: actions.START_LOADING });
     axios
       .get(`/api/meta`, {
@@ -44,6 +45,10 @@ const useLazyLoading = (hasMore, page, dispatch) => {
         dispatch({ type: actions.FINISH_LOADING });
       });
   }, [page]);
+
+  useEffect(() => {
+    setFirstRender(false);
+  });
 
   return lastNoteRef;
 };
