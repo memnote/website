@@ -1,5 +1,5 @@
-import React from "react";
-import Link from "next/link";
+import React, { useEffect, useRef, useState, useCallback } from "react";
+import axios from "axios";
 import Meta from "../components/Meta";
 import { getSubjects } from "../lib/requests";
 import { getMetaData } from "./api/meta";
@@ -7,8 +7,74 @@ import NoteCard from "../components/NoteCard";
 import Contribute from "../components/Contribute";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import { useRouter } from "next/router";
+import { normalizeQuery } from "../lib/utils";
 
 export default function Home({ metaData, subjects, hasMorePage }) {
+  const [metaDatas, setMetaDatas] = useState(metaData);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(hasMorePage);
+  const [ssr, setSsr] = useState(true);
+  const observer = useRef();
+
+  const lastNoteRef = useCallback(
+    (node) => {
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPage((page) => page + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [hasMore]
+  );
+
+  const {
+    query: { search = "", subject = "" },
+  } = useRouter();
+
+  useEffect(() => {
+    if (ssr) return;
+    let cancel;
+    axios
+      .get(`/api/meta`, {
+        params: normalizeQuery({ search, subject, page: 1 }),
+        cancelToken: new axios.CancelToken((c) => (cancel = c)),
+      })
+      .then(({ data: { data: metaDatas, pageCount } }) => {
+        setHasMore(pageCount > page);
+        setMetaDatas(metaDatas);
+      })
+      .catch((err) => {
+        if (axios.isCancel(err)) return;
+      });
+
+    return () => {
+      cancel();
+    };
+  }, [search, subject]);
+
+  useEffect(() => {
+    if (!hasMore || ssr) return;
+    axios
+      .get(`/api/meta`, {
+        params: normalizeQuery({ search, subject, page }),
+        validateStatus: (status) => status < 400,
+      })
+      .then(({ data: { data: metaDatas, pageCount } }) => {
+        setHasMore(pageCount > page);
+        setMetaDatas((old) => [...old, ...metaDatas]);
+      })
+      .catch((err) => {
+        // TODO
+      });
+  }, [page]);
+
+  useEffect(() => {
+    setSsr(false);
+  }, []);
+
   return (
     <>
       <Meta />
@@ -19,9 +85,20 @@ export default function Home({ metaData, subjects, hasMorePage }) {
         <div className="border-gray-200 md:border-l md:border-r px-3 md:px-6 xl:w-8/12">
           <Header />
 
-          {metaData.map((m, i) => {
-            return <NoteCard note={m} key={i} subjects={subjects} />;
+          {metaDatas.map((m, i) => {
+            return (
+              <NoteCard
+                note={m}
+                key={i}
+                subjects={subjects}
+                lastRef={i === metaDatas.length - 1 ? lastNoteRef : null}
+              />
+            );
           })}
+
+          {metaDatas.length === 0 && (
+            <h1 className="text-lg font-bold p-5">Nincs ilyen jegyzet 😥</h1>
+          )}
         </div>
 
         <Contribute />

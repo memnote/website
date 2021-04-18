@@ -20,10 +20,13 @@ function getSubjectcolor(key) {
   return subjectColorMap[key] ? subjectColorMap[key] : subjectColorMap.egyeb;
 }
 
-const NoteCard = ({ note: n, subjects }) => {
+const NoteCard = ({ note: n, subjects, lastRef }) => {
   return (
     <Link href={`/posts/${n.fileName}`}>
-      <div className="my-10 cursor-pointer bg-gray-100 p-5 rounded-xl shadow-md">
+      <div
+        className="my-10 cursor-pointer bg-gray-100 p-5 rounded-xl shadow-md"
+        ref={lastRef}
+      >
         <h2 className="font-bold mb-2 text-2xl">{n.title}</h2>
         <p className="text-gray-600 mb-2 text-lg max-w-prose">
           {n.description}

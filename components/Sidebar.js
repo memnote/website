@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { normalizeQuery } from "../lib/utils";
 
@@ -42,7 +41,12 @@ const Sidebar = ({ subjects }) => {
     >
       <div className="py-3 px-2 flex gap-2 items-center text-gray-700 hover:bg-gray-100 rounded-lg text-sm">
         {menuIcon}
-        <Link href="/">Összes</Link>
+        <span
+          className="line-clamp-1 lg:line-clamp-none cursor-pointer"
+          onClick={() => updateUrl(search, null)}
+        >
+          Összes
+        </span>
       </div>
       {Object.keys(subjects).map((s, i) => {
         return (
