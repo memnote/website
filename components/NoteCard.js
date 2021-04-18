@@ -13,7 +13,7 @@ const NoteCard = ({ note: n, subjects, lastRef }) => {
         <p className="text-gray-600 mb-2 text-lg max-w-prose">
           {n.description}
         </p>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <p
             className={`text-white font-bold text-xs py-1 px-2 rounded-2xl ${getSubjectcolor(
               n.subject
