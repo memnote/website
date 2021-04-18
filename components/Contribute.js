@@ -22,7 +22,7 @@ const githubIcon = (
 const Contribute = () => {
   return (
     <div className="sticky h-screen top-0 pt-10 hidden xl:block ml-10 w-60">
-      <div className="bg-gray-100 rounded-xl">
+      <div className="bg-gray-100 rounded-xl shadow-md">
         <h3 className="px-5 pt-5 font-bold text-lg">Hozzájárulás</h3>
         <div className="p-5">
           <div className="flex gap-2 mb-2 items-center">

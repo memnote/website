@@ -23,7 +23,7 @@ function getSubjectcolor(key) {
 const NoteCard = ({ note: n, subjects }) => {
   return (
     <Link href={`/posts/${n.fileName}`}>
-      <div className="my-10 cursor-pointer hover:bg-gray-100 p-5 rounded-xl">
+      <div className="my-10 cursor-pointer bg-gray-100 p-5 rounded-xl shadow-md">
         <h2 className="font-bold mb-2 text-2xl">{n.title}</h2>
         <p className="text-gray-600 mb-2 text-lg max-w-prose">
           {n.description}
