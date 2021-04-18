@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../styles/Post.module.css";
+import styles from "../../styles/Post.module.css";
 
 function Table(props) {
   return (

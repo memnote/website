@@ -2,19 +2,14 @@ import { useRouter } from "next/router";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
 import htmlParser from "react-markdown/plugins/html-parser";
-import Footer from "../../components/Footer";
 import FourOhFour from "../404";
-import CodeBlock from "../../components/CodeBlock";
-import Loading from "../../components/Loading";
-import Table from "../../components/Table";
-import LinkRenderer from "../../components/LinkRenderer";
+import CodeBlock from "../../components/md-renderers/CodeBlock";
+import Table from "../../components/md-renderers/Table";
+import LinkRenderer from "../../components/md-renderers/LinkRenderer";
 import Meta from "../../components/Meta";
 import styles from "../../styles/Post.module.css";
 import { getNoteMarkdown, getSubjects } from "../../lib/requests";
 import { getMetaData } from "../api/meta";
-import Button from "../../components/ui/Button";
-import useHistoryContext from "../../hooks/useHistoryContext";
-import { actions } from "../../lib/state/history/actions";
 
 const parseHtml = htmlParser({
   isValidNode: (node) =>
@@ -24,10 +19,10 @@ const parseHtml = htmlParser({
 
 const Post = ({ markdown: content, metaData: meta, subject, found }) => {
   const router = useRouter();
-  const { dispatch } = useHistoryContext();
 
   if (router.isFallback) {
-    return <Loading />;
+    // TODO: Loading
+    return <div />;
   }
 
   if (!found) {
@@ -47,18 +42,7 @@ const Post = ({ markdown: content, metaData: meta, subject, found }) => {
         <div className={styles.metaCenter}>
           <div className={styles.metaText}>
             <p>{meta.title}</p>
-            <Button
-              background="white"
-              color="black"
-              style={{
-                fontWeight: "bold",
-                boxShadow: "0px 0px 8px black !important",
-                height: 40,
-              }}
-              onClick={() => dispatch({ type: actions.GO_BACK })}
-            >
-              <img src="/arrowleft.svg" /> <p>Vissza</p>
-            </Button>
+            <button>Vissza</button>
           </div>
         </div>
       </div>
@@ -79,12 +63,6 @@ const Post = ({ markdown: content, metaData: meta, subject, found }) => {
           {content}
         </ReactMarkdown>
       </div>
-
-      <Footer
-        text="Hibát találtál? Esetleg szeretnéd kiegészíteni a jegyzetet?"
-        linkText="Szerkesztés Githubon"
-        link={`https://github.com/memnote/notes/edit/master/posts/${router.query.id}.md`}
-      />
     </div>
   );
 };
