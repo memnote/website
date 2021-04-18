@@ -10,6 +10,9 @@ import Meta from "../../components/Meta";
 import styles from "../../styles/Post.module.css";
 import { getNoteMarkdown, getSubjects } from "../../lib/requests";
 import { getMetaData } from "../api/meta";
+import Paragraph from "../../components/md-renderers/Paragraph";
+import Headings from "../../components/md-renderers/Headings";
+import Lists from "../../components/md-renderers/Lists";
 
 const parseHtml = htmlParser({
   isValidNode: (node) =>
@@ -58,7 +61,14 @@ const Post = ({ markdown: content, metaData: meta, subject, found }) => {
           astPlugins={[parseHtml]}
           allowDangerousHtml
           plugins={[gfm]}
-          renderers={{ code: CodeBlock, table: Table, link: LinkRenderer }}
+          renderers={{
+            code: CodeBlock,
+            table: Table,
+            link: LinkRenderer,
+            paragraph: Paragraph,
+            heading: Headings,
+            list: Lists,
+          }}
         >
           {content}
         </ReactMarkdown>
