@@ -1,6 +1,5 @@
 import React from "react";
 import { useRouter } from "next/router";
-import styles from "../../styles/LinkRenderer.module.css";
 
 function LinkRenderer(props) {
   const router = useRouter();
@@ -17,7 +16,7 @@ function LinkRenderer(props) {
   };
 
   return (
-    <a className={styles.link} onClick={handleClick}>
+    <a className="cursor-pointer inline text-blue-600" onClick={handleClick}>
       <>{props.children}</>
     </a>
   );

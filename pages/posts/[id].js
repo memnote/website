@@ -7,12 +7,13 @@ import CodeBlock from "../../components/md-renderers/CodeBlock";
 import Table from "../../components/md-renderers/Table";
 import LinkRenderer from "../../components/md-renderers/LinkRenderer";
 import Meta from "../../components/Meta";
-import styles from "../../styles/Post.module.css";
 import { getNoteMarkdown, getSubjects } from "../../lib/requests";
 import { getMetaData } from "../api/meta";
 import Paragraph from "../../components/md-renderers/Paragraph";
 import Headings from "../../components/md-renderers/Headings";
 import Lists from "../../components/md-renderers/Lists";
+import { getSubjectcolor } from "../../lib/utils";
+import Link from "next/link";
 
 const parseHtml = htmlParser({
   isValidNode: (node) =>
@@ -20,7 +21,13 @@ const parseHtml = htmlParser({
     (node.name === "u" || node.name === "sub" || node.name === "sup"),
 });
 
-const Post = ({ markdown: content, metaData: meta, subject, found }) => {
+const Post = ({
+  markdown: content,
+  metaData: meta,
+  subject,
+  subjectKey,
+  found,
+}) => {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -33,46 +40,49 @@ const Post = ({ markdown: content, metaData: meta, subject, found }) => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="max-w-4xl mx-auto py-10 px-5">
       <Meta
         title={`Memnote - ${meta.title}`}
         description={`Üzemmérnök-informatikus jegyzet - ${meta.description}`}
       >
         <meta name="revised" content={`Memnote, ${meta.date}`} />
       </Meta>
-
-      <div className={styles.metaContainer}>
-        <div className={styles.metaCenter}>
-          <div className={styles.metaText}>
-            <p>{meta.title}</p>
-            <button>Vissza</button>
-          </div>
+      <Link href="/">
+        <div className="text-md bg-gray-100 py-2 px-4 mb-5 rounded-xl inline-block cursor-pointer hover:bg-gray-300">
+          Vissza a főoldalra
         </div>
-      </div>
+      </Link>
+      <h1 className="font-bold text-5xl">{meta.title}</h1>
 
-      <div className={styles.mdContainer}>
-        <div className={styles.backMeta}>
-          <div>
-            <p>{subject}</p>
-            <p>{new Date(meta.date).toLocaleDateString()}</p>
-          </div>
-        </div>
-        <ReactMarkdown
-          astPlugins={[parseHtml]}
-          allowDangerousHtml
-          plugins={[gfm]}
-          renderers={{
-            code: CodeBlock,
-            table: Table,
-            link: LinkRenderer,
-            paragraph: Paragraph,
-            heading: Headings,
-            list: Lists,
-          }}
+      <div className="flex gap-2 mt-5 flex-wrap">
+        <p
+          className={`text-white font-bold text-xs py-1 px-2 rounded-2xl ${getSubjectcolor(
+            subjectKey
+          )}`}
         >
-          {content}
-        </ReactMarkdown>
+          {subject}
+        </p>
+        <p className="bg-gray-200 text-xs py-1 px-2 rounded-2xl">
+          {new Date(meta.date).toLocaleDateString()}
+        </p>
       </div>
+
+      <hr className="mt-4" />
+      <ReactMarkdown
+        astPlugins={[parseHtml]}
+        allowDangerousHtml
+        plugins={[gfm]}
+        renderers={{
+          code: CodeBlock,
+          table: Table,
+          link: LinkRenderer,
+          paragraph: Paragraph,
+          heading: Headings,
+          list: Lists,
+        }}
+      >
+        {content}
+      </ReactMarkdown>
     </div>
   );
 };
@@ -89,6 +99,7 @@ export async function getStaticProps({ params }) {
         markdown,
         metaData,
         subject,
+        subjectKey: metaData.subject,
         found: true,
       },
       revalidate: 60 * 60 * 24,
