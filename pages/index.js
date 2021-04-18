@@ -75,6 +75,10 @@ export default function Home({ metaData, subjects, hasMorePage }) {
     setSsr(false);
   }, []);
 
+  const tailwindCompile = () => (
+    <div className="bg-yellow-400 bg-yellow-500 bg-purple-400 bg-red-500 bg-purple-500 bg-yellow-600 bg-blue-400 bg-red-600 bg-purple-600 bg-blue-500 bg-green-500"></div>
+  );
+
   return (
     <>
       <Meta />
