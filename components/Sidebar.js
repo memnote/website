@@ -36,11 +36,13 @@ const Sidebar = ({ subjects }) => {
 
   return (
     <aside
-      className="hidden md:flex flex-col sticky h-screen top-0 pt-10 overflow-y-auto pr-10"
+      className="hidden md:flex flex-col sticky h-screen top-10 overflow-y-auto pr-10"
       style={{ maxWidth: "20rem" }}
     >
       <div
-        className="py-3 px-2 flex gap-2 items-center text-gray-700 hover:bg-gray-100 rounded-lg text-sm cursor-pointer"
+        className={`mb-1 py-3 px-2 flex gap-2 items-center text-gray-700 hover:bg-gray-100 rounded-lg text-sm cursor-pointer ${
+          !subject && "font-bold"
+        }`}
         onClick={() => updateUrl(search, null)}
       >
         {menuIcon}
@@ -50,7 +52,9 @@ const Sidebar = ({ subjects }) => {
         return (
           <div
             key={i}
-            className="py-3 px-2 flex gap-2 items-center text-gray-700 hover:bg-gray-100 rounded-lg text-sm cursor-pointer"
+            className={`my-1 py-3 px-2 flex gap-2 items-center text-gray-700 hover:bg-gray-100 rounded-lg text-sm cursor-pointer ${
+              s === subject && "font-bold"
+            }`}
             onClick={() => updateUrl(search, s)}
           >
             {menuIcon}
