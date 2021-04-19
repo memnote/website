@@ -36,7 +36,7 @@ const Sidebar = ({ subjects }) => {
 
   return (
     <aside
-      className="hidden md:flex flex-col sticky h-screen top-10 overflow-y-auto pr-10"
+      className="hidden md:flex flex-col sticky h-screen top-0 pt-10 overflow-y-auto pr-10"
       style={{ maxWidth: "20rem" }}
     >
       <div
