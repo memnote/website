@@ -1,79 +1,113 @@
-import React, { useEffect, useReducer } from "react";
-import Footer from "../components/Footer";
-import NoteCardList from "../components/NoteCardList";
+import React, { useEffect, useRef, useState, useCallback } from "react";
+import axios from "axios";
 import Meta from "../components/Meta";
-import styles from "../styles/Home.module.css";
-import Hero from "../components/Hero";
-import useLazyLoading from "../hooks/useLazyLoading";
 import { getSubjects } from "../lib/requests";
-import { actions } from "../lib/state/search/actions";
-import { actions as historyActions } from "../lib/state/history/actions";
-import searchReducer from "../lib/state/search/reducer";
 import { getMetaData } from "./api/meta";
-import useHistoryContext from "../hooks/useHistoryContext";
-
-export const SearchContext = React.createContext({});
+import NoteCard from "../components/NoteCard";
+import Contribute from "../components/Contribute";
+import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
+import { useRouter } from "next/router";
+import { normalizeQuery } from "../lib/utils";
 
 export default function Home({ metaData, subjects, hasMorePage }) {
-  const [state, dispatch] = useReducer(searchReducer, {
-    page: 1,
-    subjects: [],
-    hasMore: hasMorePage,
-    metaDatas: [],
-    loading: false,
-  });
+  const [metaDatas, setMetaDatas] = useState(metaData);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(hasMorePage);
+  const [ssr, setSsr] = useState(true);
+  const observer = useRef();
 
-  const { metaDatas, hasMore, page, loading } = state;
-  const lastNoteRef = useLazyLoading(hasMore, page, dispatch, true);
-  const { dispatch: dispatchHistory } = useHistoryContext();
+  const lastNoteRef = useCallback(
+    (node) => {
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPage((page) => page + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [hasMore]
+  );
+
+  const {
+    query: { search = "", subject = "" },
+  } = useRouter();
 
   useEffect(() => {
-    dispatch({
-      type: actions.START,
-      payload: {
-        metaDatas: metaData,
-        subjects,
-        hasMore: hasMorePage,
-      },
-    });
-    dispatchHistory({ type: historyActions.CLEAR });
+    if (ssr) return;
+    let cancel;
+    axios
+      .get(`/api/meta`, {
+        params: normalizeQuery({ search, subject, page: 1 }),
+        cancelToken: new axios.CancelToken((c) => (cancel = c)),
+      })
+      .then(({ data: { data: metaDatas, pageCount } }) => {
+        setHasMore(pageCount > page);
+        setMetaDatas(metaDatas);
+      })
+      .catch((err) => {
+        if (axios.isCancel(err)) return;
+      });
+
+    return () => {
+      cancel();
+    };
+  }, [search, subject]);
+
+  useEffect(() => {
+    if (!hasMore || ssr) return;
+    axios
+      .get(`/api/meta`, {
+        params: normalizeQuery({ search, subject, page }),
+        validateStatus: (status) => status < 400,
+      })
+      .then(({ data: { data: metaDatas, pageCount } }) => {
+        setHasMore(pageCount > page);
+        setMetaDatas((old) => [...old, ...metaDatas]);
+      })
+      .catch((err) => {
+        // TODO
+      });
+  }, [page]);
+
+  useEffect(() => {
+    setSsr(false);
   }, []);
 
+  const tailwindCompile = () => (
+    <div className="bg-yellow-400 bg-yellow-500 bg-purple-400 bg-red-500 bg-purple-500 bg-yellow-600 bg-blue-400 bg-red-600 bg-purple-600 bg-blue-500 bg-green-500"></div>
+  );
+
   return (
-    <SearchContext.Provider
-      value={{
-        dispatch,
-        metaDatas,
-        hasMore,
-        page,
-        subjects,
-      }}
-    >
+    <>
       <Meta />
 
-      <div className={styles.container}>
-        <Hero />
-        <div>
-          <NoteCardList refChange={lastNoteRef} />
+      <div className="mx-auto c-container flex">
+        <Sidebar subjects={subjects} />
 
-          {metaDatas.length <= 0 && !loading && (
-            <div>
-              <h2>Nem található a keresésnek megfelelő jegyzet!</h2>
-            </div>
-          )}
+        <div className="border-gray-200 md:border-l md:border-r px-3 md:px-6 xl:w-8/12">
+          <Header subjects={subjects} />
 
-          {loading && (
-            <img className={styles.loadingSpinner} src="./loading.gif" />
+          {metaDatas.map((m, i) => {
+            return (
+              <NoteCard
+                note={m}
+                key={i}
+                subjects={subjects}
+                lastRef={i === metaDatas.length - 1 ? lastNoteRef : null}
+              />
+            );
+          })}
+
+          {metaDatas.length === 0 && (
+            <h1 className="text-lg font-bold p-5">Nincs ilyen jegyzet 😥</h1>
           )}
         </div>
-      </div>
 
-      <Footer
-        text="Szeretnél jegyzetet feltölteni? Esetleg hibát találtál?"
-        linkText="Irány a data repo"
-        link="https://github.com/memnote/notes"
-      />
-    </SearchContext.Provider>
+        <Contribute />
+      </div>
+    </>
   );
 }
 
