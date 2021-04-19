@@ -87,7 +87,7 @@ export default function Home({ metaData, subjects, hasMorePage }) {
         <Sidebar subjects={subjects} />
 
         <div className="border-gray-200 md:border-l md:border-r px-3 md:px-6 xl:w-8/12">
-          <Header />
+          <Header subjects={subjects} />
 
           {metaDatas.map((m, i) => {
             return (

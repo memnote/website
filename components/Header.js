@@ -19,7 +19,7 @@ const searchIcon = (
   </svg>
 );
 
-const Header = () => {
+const Header = ({ subjects }) => {
   const router = useRouter();
   const {
     query: { search = "", subject = "" },
@@ -47,6 +47,24 @@ const Header = () => {
         />
         {searchIcon}
       </div>
+      <select
+        name="subject"
+        id="subject"
+        className="w-full md:hidden mt-2 border-gray-300 rounded-md"
+        value={subject ? subject : "all"}
+        onChange={(e) =>
+          updateUrl(search, e.target.value === "all" ? "" : e.target.value)
+        }
+      >
+        <option value="all">Összes tantárgy</option>
+        {Object.keys(subjects).map((key) => {
+          return (
+            <option key={key} value={key} className="py-2">
+              {subjects[key]}
+            </option>
+          );
+        })}
+      </select>
     </div>
   );
 };
