@@ -53,7 +53,7 @@ tr:nth-child(even) {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 
 /* Track */
@@ -63,7 +63,7 @@ tr:nth-child(even) {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: rgb(179, 179, 179);
 }
 
 /* Handle on hover */
