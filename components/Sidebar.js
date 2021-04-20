@@ -61,7 +61,7 @@ const Sidebar = ({ subjects }) => {
               }`}
               onClick={() => updateUrl(search, s)}
             >
-              {menuIcon}
+              <div>{menuIcon}</div>
               <span className="line-clamp-1 lg:line-clamp-none">
                 {subjects[s]}
               </span>
