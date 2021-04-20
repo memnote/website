@@ -17,6 +17,7 @@ export default function Home({ metaData, subjects, hasMorePage }) {
   const [hasMore, setHasMore] = useState(hasMorePage);
   const [ssr, setSsr] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [searchLoading, setSearchLoading] = useState(false);
   const observer = useRef();
 
   const lastNoteRef = useCallback(
@@ -45,6 +46,7 @@ export default function Home({ metaData, subjects, hasMorePage }) {
   useEffect(() => {
     if (ssr) return;
     let cancel;
+    setSearchLoading(true);
     axios
       .get(`/api/meta`, {
         params: normalizeQuery({ search, subject, page: 1 }),
@@ -55,10 +57,12 @@ export default function Home({ metaData, subjects, hasMorePage }) {
         setMetaDatas(metaDatas);
         setPage(1);
         setLoading(false);
+        setSearchLoading(false);
       })
       .catch((err) => {
-        setLoading(false);
         if (axios.isCancel(err)) return;
+        setLoading(false);
+        setSearchLoading(false);
       });
 
     return () => {
@@ -99,7 +103,7 @@ export default function Home({ metaData, subjects, hasMorePage }) {
         <Sidebar subjects={subjects} />
 
         <div className="border-gray-200 md:border-l md:border-r px-3 md:px-6 xl:w-8/12 mb-14 md:w-4/5">
-          <Header subjects={subjects} />
+          <Header subjects={subjects} loading={searchLoading} />
 
           {metaDatas.map((m, i) => {
             return (
@@ -116,7 +120,11 @@ export default function Home({ metaData, subjects, hasMorePage }) {
             <h1 className="text-lg font-bold p-5">Nincs ilyen jegyzet 😥</h1>
           )}
 
-          {loading && <LoadingSpinner />}
+          {loading && (
+            <div className="w-full flex justify-center mt-8">
+              <LoadingSpinner />
+            </div>
+          )}
         </div>
 
         <Contribute />

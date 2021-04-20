@@ -1,6 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { normalizeQuery } from "../lib/utils";
+import LoadingSpinner from "./LoadingSpinner";
 
 const searchIcon = (
   <svg
@@ -19,7 +20,13 @@ const searchIcon = (
   </svg>
 );
 
-const Header = ({ subjects }) => {
+const loadingSpinner = (
+  <div className="absolute right-7" style={{ top: -2 }}>
+    <LoadingSpinner size={10} />
+  </div>
+);
+
+const Header = ({ subjects, loading }) => {
   const router = useRouter();
   const {
     query: { search = "", subject = "" },
@@ -45,7 +52,7 @@ const Header = ({ subjects }) => {
           type="text"
           className="px-4 py-2 border border-gray-300 dark:border-gray-900 focus:ring-blue-500 focus:border-blue-500 block w-full rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
         />
-        {searchIcon}
+        {loading ? loadingSpinner : searchIcon}
       </div>
       <select
         name="subject"
