@@ -45,6 +45,7 @@ export default function Home({ metaData, subjects, hasMorePage }) {
       .then(({ data: { data: metaDatas, pageCount } }) => {
         setHasMore(pageCount > page);
         setMetaDatas(metaDatas);
+        setPage(1);
       })
       .catch((err) => {
         if (axios.isCancel(err)) return;
