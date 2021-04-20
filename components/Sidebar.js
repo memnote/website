@@ -36,34 +36,39 @@ const Sidebar = ({ subjects }) => {
 
   return (
     <aside
-      className="hidden md:flex flex-col sticky h-screen top-0 pt-10 overflow-y-auto pr-10"
-      style={{ maxWidth: "20rem" }}
+      className="hidden md:flex flex-col sticky h-screen top-0 pt-10 pr-10"
+      style={{ maxWidth: "18rem" }}
     >
       <div
-        className={`mb-1 py-3 px-2 flex gap-2 items-center text-gray-700 hover:bg-gray-100 rounded-lg text-sm cursor-pointer ${
-          !subject && "font-bold"
-        }`}
-        onClick={() => updateUrl(search, null)}
+        className="bg-gray-100 p-3 rounded-lg shadow-md overflow-y-auto"
+        style={{ maxHeight: "90%" }}
       >
-        {menuIcon}
-        <span className="line-clamp-1 lg:line-clamp-none">Összes</span>
+        <div
+          className={`mb-1 py-3 px-2 flex gap-2 items-center text-gray-700 hover:bg-white rounded-lg text-sm cursor-pointer ${
+            !subject && "font-bold bg-white"
+          }`}
+          onClick={() => updateUrl(search, null)}
+        >
+          {menuIcon}
+          <span className="line-clamp-1 lg:line-clamp-none">Összes</span>
+        </div>
+        {Object.keys(subjects).map((s, i) => {
+          return (
+            <div
+              key={i}
+              className={`my-1 py-3 px-2 flex gap-2 items-center text-gray-700 hover:bg-white rounded-lg text-sm cursor-pointer ${
+                s === subject && "font-bold bg-white"
+              }`}
+              onClick={() => updateUrl(search, s)}
+            >
+              {menuIcon}
+              <span className="line-clamp-1 lg:line-clamp-none">
+                {subjects[s]}
+              </span>
+            </div>
+          );
+        })}
       </div>
-      {Object.keys(subjects).map((s, i) => {
-        return (
-          <div
-            key={i}
-            className={`my-1 py-3 px-2 flex gap-2 items-center text-gray-700 hover:bg-gray-100 rounded-lg text-sm cursor-pointer ${
-              s === subject && "font-bold"
-            }`}
-            onClick={() => updateUrl(search, s)}
-          >
-            {menuIcon}
-            <span className="line-clamp-1 lg:line-clamp-none">
-              {subjects[s]}
-            </span>
-          </div>
-        );
-      })}
     </aside>
   );
 };
