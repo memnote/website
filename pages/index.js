@@ -9,12 +9,14 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { useRouter } from "next/router";
 import { normalizeQuery } from "../lib/utils";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function Home({ metaData, subjects, hasMorePage }) {
   const [metaDatas, setMetaDatas] = useState(metaData);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(hasMorePage);
   const [ssr, setSsr] = useState(true);
+  const [loading, setLoading] = useState(false);
   const observer = useRef();
 
   const lastNoteRef = useCallback(
@@ -36,6 +38,12 @@ export default function Home({ metaData, subjects, hasMorePage }) {
 
   useEffect(() => {
     if (ssr) return;
+    setLoading(true);
+    setMetaDatas([]);
+  }, [subject]);
+
+  useEffect(() => {
+    if (ssr) return;
     let cancel;
     axios
       .get(`/api/meta`, {
@@ -46,8 +54,10 @@ export default function Home({ metaData, subjects, hasMorePage }) {
         setHasMore(pageCount > page);
         setMetaDatas(metaDatas);
         setPage(1);
+        setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         if (axios.isCancel(err)) return;
       });
 
@@ -58,6 +68,7 @@ export default function Home({ metaData, subjects, hasMorePage }) {
 
   useEffect(() => {
     if (!hasMore || ssr) return;
+    setLoading(true);
     axios
       .get(`/api/meta`, {
         params: normalizeQuery({ search, subject, page }),
@@ -66,9 +77,10 @@ export default function Home({ metaData, subjects, hasMorePage }) {
       .then(({ data: { data: metaDatas, pageCount } }) => {
         setHasMore(pageCount > page);
         setMetaDatas((old) => [...old, ...metaDatas]);
+        setLoading(false);
       })
-      .catch((err) => {
-        // TODO
+      .catch(() => {
+        setLoading(false);
       });
   }, [page]);
 
@@ -87,7 +99,7 @@ export default function Home({ metaData, subjects, hasMorePage }) {
       <div className="mx-auto c-container flex">
         <Sidebar subjects={subjects} />
 
-        <div className="border-gray-200 md:border-l md:border-r px-3 md:px-6 xl:w-8/12">
+        <div className="border-gray-200 md:border-l md:border-r px-3 md:px-6 xl:w-8/12 mb-14">
           <Header subjects={subjects} />
 
           {metaDatas.map((m, i) => {
@@ -101,9 +113,11 @@ export default function Home({ metaData, subjects, hasMorePage }) {
             );
           })}
 
-          {metaDatas.length === 0 && (
+          {metaDatas.length === 0 && !loading && (
             <h1 className="text-lg font-bold p-5">Nincs ilyen jegyzet 😥</h1>
           )}
+
+          {loading && <LoadingSpinner />}
         </div>
 
         <Contribute />
