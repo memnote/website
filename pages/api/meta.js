@@ -61,7 +61,7 @@ export const getMetaData = async (
   { search, subject, page } = { search: null, subject: null, page: null }
 ) => {
   let response = [];
-  await new Promise((res, rej) => setTimeout(() => res(), 1000));
+
   if (cache.hasCache()) {
     response = cache.getAll();
   } else {
