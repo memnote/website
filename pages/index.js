@@ -95,11 +95,10 @@ export default function Home({ metaData, subjects, hasMorePage }) {
   return (
     <>
       <Meta />
-
       <div className="mx-auto c-container flex">
         <Sidebar subjects={subjects} />
 
-        <div className="border-gray-200 md:border-l md:border-r px-3 md:px-6 xl:w-8/12 mb-14">
+        <div className="border-gray-200 md:border-l md:border-r px-3 md:px-6 xl:w-8/12 mb-14 md:w-4/5">
           <Header subjects={subjects} />
 
           {metaDatas.map((m, i) => {
