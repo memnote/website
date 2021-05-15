@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
@@ -28,7 +29,18 @@ const Post = ({
   subjectKey,
   found,
 }) => {
+  const [progress, setProgress] = useState(0);
   const router = useRouter();
+
+  useEffect(() => {
+    const listener = () =>
+      setProgress(
+        (window.scrollY / (document.body.scrollHeight - window.innerHeight)) *
+          100
+      );
+    window.addEventListener("scroll", listener);
+    return () => window.removeEventListener("scroll", listener);
+  }, []);
 
   if (router.isFallback) {
     // TODO: Loading
@@ -40,50 +52,60 @@ const Post = ({
   }
 
   return (
-    <div className="max-w-4xl mx-auto py-10 px-5">
-      <Meta
-        title={`Memnote - ${meta.title}`}
-        description={`Üzemmérnök-informatikus jegyzet - ${meta.description}`}
-      >
-        <meta name="revised" content={`Memnote, ${meta.date}`} />
-      </Meta>
-      <Link href="/">
-        <div className="text-md bg-gray-100 py-2 px-4 mb-5 rounded-xl inline-block cursor-pointer hover:bg-gray-300">
-          Vissza a főoldalra
-        </div>
-      </Link>
-      <h1 className="font-bold text-5xl">{meta.title}</h1>
-
-      <div className="flex gap-2 mt-5 flex-wrap">
-        <p
-          className={`text-white font-bold text-xs py-1 px-2 rounded-2xl ${getSubjectcolor(
-            subjectKey
-          )}`}
-        >
-          {subject}
-        </p>
-        <p className="bg-gray-200 text-xs py-1 px-2 rounded-2xl">
-          {new Date(meta.date).toLocaleDateString()}
-        </p>
+    <>
+      <div className="fixed w-full h-1 bg-transparent">
+        <div
+          className={`h-full ${getSubjectcolor(subjectKey)}`}
+          style={{ width: `${progress}%` }}
+        />
       </div>
 
-      <hr className="mt-4" />
-      <ReactMarkdown
-        astPlugins={[parseHtml]}
-        allowDangerousHtml
-        plugins={[gfm]}
-        renderers={{
-          code: CodeBlock,
-          table: Table,
-          link: LinkRenderer,
-          paragraph: Paragraph,
-          heading: Headings,
-          list: Lists,
-        }}
-      >
-        {content}
-      </ReactMarkdown>
-    </div>
+      <div className="max-w-4xl mx-auto py-10 px-5">
+        <Meta
+          title={`Memnote - ${meta.title}`}
+          description={`Üzemmérnök-informatikus jegyzet - ${meta.description}`}
+        >
+          <meta name="revised" content={`Memnote, ${meta.date}`} />
+        </Meta>
+
+        <Link href="/">
+          <div className="text-md bg-gray-100 py-2 px-4 mb-5 rounded-xl inline-block cursor-pointer hover:bg-gray-300">
+            Vissza a főoldalra
+          </div>
+        </Link>
+        <h1 className="font-bold text-5xl">{meta.title}</h1>
+
+        <div className="flex gap-2 mt-5 flex-wrap">
+          <p
+            className={`text-white font-bold text-xs py-1 px-2 rounded-2xl ${getSubjectcolor(
+              subjectKey
+            )}`}
+          >
+            {subject}
+          </p>
+          <p className="bg-gray-200 text-xs py-1 px-2 rounded-2xl">
+            {new Date(meta.date).toLocaleDateString()}
+          </p>
+        </div>
+
+        <hr className="mt-4" />
+        <ReactMarkdown
+          astPlugins={[parseHtml]}
+          allowDangerousHtml
+          plugins={[gfm]}
+          renderers={{
+            code: CodeBlock,
+            table: Table,
+            link: LinkRenderer,
+            paragraph: Paragraph,
+            heading: Headings,
+            list: Lists,
+          }}
+        >
+          {content}
+        </ReactMarkdown>
+      </div>
+    </>
   );
 };
 
